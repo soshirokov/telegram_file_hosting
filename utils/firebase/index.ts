@@ -18,7 +18,9 @@ import {
 
 import { FilesServer } from 'types/File'
 
-import firebaseConfig from '../../firebase-key.json'
+const firebaseConfig = JSON.parse(
+  process.env.NEXT_PUBLIC_FIREBASE_CLIENT_CREDITS as string
+)
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig)

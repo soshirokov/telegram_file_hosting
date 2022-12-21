@@ -3,7 +3,7 @@ import { Database } from 'firebase-admin/lib/database/database'
 
 import { FileServer } from 'types/File'
 
-import serviceAccount from '../../firebase-admin-key.json'
+const serviceAccount = JSON.parse(process.env.FIREBASE_ADMIN_CREDITS as string)
 
 if (admin.apps.length === 0) {
   admin.initializeApp(
