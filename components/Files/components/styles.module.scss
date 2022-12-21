@@ -1,0 +1,85 @@
+.File {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  transition: background-color ease 0.3s;
+  width: 100%;
+
+  &_select {
+    cursor: pointer;
+  }
+
+  &:hover {
+    background-color: rgb(0 0 0 / 1.5%);
+  }
+
+  &:hover .Folder__Name {
+    color: #40a9ff;
+  }
+
+  &:hover .Folder__Icon {
+    color: #40a9ff;
+  }
+}
+
+.File__Desc {
+  align-items: center;
+  display: flex;
+}
+
+.File__Actions {
+  align-items: center;
+  display: flex;
+}
+
+.File__Icon {
+  font-size: 28px;
+  transition: color ease 0.3s;
+
+  &_edit svg {
+    font-size: 14px;
+  }
+
+  &_save svg {
+    font-size: 14px;
+  }
+}
+
+.File__Name {
+  margin-left: 15px;
+  margin-right: 5px;
+  transition: color ease 0.3s;
+
+  &[disabled] {
+    color: inherit;
+  }
+}
+
+.File__Link {
+  margin-right: 10px;
+}
+
+.File__Download {
+  font-size: 18px;
+}
+
+.File__Delete {
+  font-size: 18px;
+  margin-left: 10px;
+}
+
+.File__Size {
+  margin-left: 15px;
+}
+
+.File__Thumb {
+  background-position: 50% 50%;
+  background-size: cover;
+  height: 28px;
+  width: 28px;
+}
+
+.File__Checkbox {
+  margin-right: 15px;
+}

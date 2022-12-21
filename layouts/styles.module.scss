@@ -1,0 +1,21 @@
+.Main__Layout {
+  min-height: 100vh;
+}
+
+.Main__Container {
+  flex-grow: 1;
+  margin: 0 auto;
+  max-width: 1440px;
+  width: 100%;
+}
+
+.Main__Content {
+  align-items: stretch;
+  display: flex;
+  padding: 50px 0;
+}
+
+.Main__Wrap {
+  background-color: #fff;
+  padding: 50px;
+}

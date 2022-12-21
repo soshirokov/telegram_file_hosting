@@ -1,0 +1,22 @@
+.FileUploader {
+  margin: 20px auto;
+  padding: 40px;
+
+  &:hover .FileUploader__Icon {
+    color: #40a9ff;
+  }
+}
+
+.FileUploader__Icon {
+  font-size: 42px;
+  margin-bottom: 20px;
+  transition: color ease 0.3s;
+}
+
+.FileUploader__Text {
+  margin-bottom: 20px;
+}
+
+.FileUploader__Desc {
+  color: #d0d0d0;
+}

@@ -1,0 +1,23 @@
+{
+  "semi": false,
+  "singleQuote": true,
+  "importOrder": [
+    "^react$",
+    "react",
+    "<THIRD_PARTY_MODULES>",
+    "((^components)|(^.{0,2}/components)).*?$",
+    "((^containers)|(^.{0,2}/containers)).*?$",
+    "((^context)|(^.{0,2}/context)).*?$",
+    "((^helpers)|(^.{0,2}/helpers)).*?$",
+    "((^layouts)|(^.{0,2}/layouts)).*?$",
+    "((^pages)|(^.{0,2}/pages)).*?$",
+    "((^types)|(^.{0,2}/types)).*?$",
+    "((^utils)|(^.{0,2}/utils)).*?$",
+    "^../((?!css).)*$",
+    "^./((?!css).)*$",
+    "css"
+  ],
+  "importOrderSeparation": true,
+  "importOrderSortSpecifiers": true,
+  "importOrderCaseInsensitive": true
+}
