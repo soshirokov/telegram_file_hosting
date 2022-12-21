@@ -5,7 +5,7 @@ import { generateCaption } from 'helpers/generators'
 
 const bot = new Telegraf(process.env.BOT_TOKEN ?? '')
 
-bot.telegram.setWebhook(`${process.env.VERCEL_URL}/api/tgbot`)
+bot.telegram.setWebhook(`${process.env.NEXT_PUBLIC_VERCEL_URL}/api/tgbot`)
 
 export const sendFileToTeleram = async (
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
