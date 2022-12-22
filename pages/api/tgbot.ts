@@ -52,7 +52,10 @@ const tgBot = async (req: NextApiRequest, res: NextApiResponse) => {
   })
 
   if (req.query.setWebhook === 'true') {
-    console.log(await bot.telegram.setWebhook(`${process.env.URL}/api/tgbot`))
+    console.log(
+      await bot.telegram.setWebhook(`${process.env.URL}/api/tgbot`),
+      process.env.URL
+    )
 
     await bot.launch()
   }
