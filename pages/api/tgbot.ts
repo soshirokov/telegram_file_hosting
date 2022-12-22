@@ -57,7 +57,7 @@ const tgBot = async (req: NextApiRequest, res: NextApiResponse) => {
       process.env.URL
     )
 
-    await bot.launch()
+    bot.launch()
   }
 
   res.status(200).send('OK')
