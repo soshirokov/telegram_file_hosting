@@ -1,7 +1,7 @@
 import admin, { ServiceAccount } from 'firebase-admin'
 import { Database } from 'firebase-admin/lib/database/database'
 
-import { FileServer } from 'types/File'
+import { FileServer, FilesServer } from 'types/File'
 
 const serviceAccount = JSON.parse(process.env.FIREBASE_ADMIN_CREDITS as string)
 
@@ -30,16 +30,18 @@ const getUserFolderRef = (userId: string, folderId: string) =>
 // File Refs
 const getUserFileRef = (userId: string, fileId: string) =>
   database.ref(`users/${userId}/files/${fileId}`)
+const getAllUserFilesRef = (userId: string) =>
+  database.ref(`users/${userId}/files`)
 
 // Queries
 const userQuery = (chatId: string) =>
   getUsers.orderByChild('chatId').equalTo(chatId)
+const fileByMessageIdQuery = (userId: string, messageId: number) =>
+  getAllUserFilesRef(userId).orderByChild('messageId').equalTo(messageId)
 
 //DB Methods
 export const getUserByChatId = async (chatId: string) => {
-  const userRef = userQuery(chatId)
-  const result = await userRef.get()
-  const user = result.val()
+  const user = (await userQuery(chatId).get()).val()
 
   return Object.keys(user)[0]
 }
@@ -48,6 +50,17 @@ export const getUserUploadFolderId = async (userId: string) =>
 
 export const getFolder = async (userId: string, folderId: string) =>
   (await getUserFolderRef(userId, folderId).get()).val()
+
+export const getFileByMessageId = async (
+  userId: string,
+  messageId: number
+): Promise<FileServer> => {
+  const files: FilesServer = (
+    await fileByMessageIdQuery(userId, messageId).get()
+  ).val()
+
+  return files[Object.keys(files)[0]]
+}
 
 export const setFile = async (
   userId: string,

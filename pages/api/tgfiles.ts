@@ -1,8 +1,6 @@
 import formidable from 'formidable'
 import type { NextApiRequest, NextApiResponse } from 'next'
 
-import { isfromTelegram } from 'helpers/validators'
-
 import {
   deleteMessageFromTelegram,
   getFileLinkFromTelegram,
@@ -10,7 +8,7 @@ import {
   updateFileInTelegram,
 } from 'utils/api/tgAPI'
 import { uploadFileId } from 'utils/firebase'
-import { getUserByChatId } from 'utils/firebase-admin'
+import { getFileByMessageId, getUserByChatId } from 'utils/firebase-admin'
 
 export const config = {
   api: {
@@ -57,7 +55,7 @@ export const put = (req: NextApiRequest, res: NextApiResponse) => {
     const file = await getFileLinkFromTelegram(fileId)
     const download = await fetch(file)
 
-    if (await isfromTelegram(userId, +messageId)) {
+    if ((await getFileByMessageId(userId, +messageId)).fromTelegram) {
       const uploadId = await uploadFileId(userId, +messageId)
       await deleteMessageFromTelegram(req.body?.chatId, uploadId)
     }

@@ -1,7 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 
-import { isfromTelegram } from 'helpers/validators'
-
 import {
   changeMessage,
   changeMessageCaption,
@@ -9,7 +7,7 @@ import {
   replyMessageToTelegram,
 } from 'utils/api/tgAPI'
 import { uploadFileId } from 'utils/firebase'
-import { getUserByChatId } from 'utils/firebase-admin'
+import { getFileByMessageId, getUserByChatId } from 'utils/firebase-admin'
 
 export const post = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.body?.replyTo && req.body?.chatId) {
@@ -27,7 +25,7 @@ export const put = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.body?.chatId && req.body?.messageId) {
     const userId = await getUserByChatId(req.body.chatId)
 
-    if (await isfromTelegram(userId, +req.body.messageId)) {
+    if ((await getFileByMessageId(userId, +req.body.messageId)).fromTelegram) {
       const message = await changeMessage(
         req.body.chatId,
         +req.body.messageId,
@@ -51,7 +49,7 @@ export const remove = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.body?.messageId && req.body?.chatId) {
     const userId = await getUserByChatId(req.body.chatId)
 
-    if (await isfromTelegram(userId, +req.body.messageId)) {
+    if ((await getFileByMessageId(userId, +req.body.messageId)).fromTelegram) {
       const uploadId = await uploadFileId(userId, +req.body.messageId)
       await deleteMessageFromTelegram(req.body?.chatId, +req.body?.messageId)
       const message = await deleteMessageFromTelegram(
