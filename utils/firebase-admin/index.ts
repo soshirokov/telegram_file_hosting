@@ -41,9 +41,11 @@ const fileByMessageIdQuery = (userId: string, messageId: number) =>
 
 //DB Methods
 export const getUserByChatId = async (chatId: string) => {
-  const user = (await userQuery(chatId).get()).val()
+  const users = (await userQuery(chatId).get()).val()
 
-  return Object.keys(user)[0]
+  console.log('Firebase users: ', users)
+
+  return Object.keys(users)[0]
 }
 export const getUserUploadFolderId = async (userId: string) =>
   (await getUserUploadFolderRef(userId).get()).val()

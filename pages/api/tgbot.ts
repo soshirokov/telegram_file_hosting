@@ -18,6 +18,9 @@ const onDocumentHandler = async (ctx: any) => {
   console.log('Doc handler start')
 
   const chatId = ctx.update.message.chat.id.toString()
+
+  console.log('Doc handler chatID: ', chatId)
+
   const userId = await getUserByChatId(chatId)
 
   console.log('Doc handler get params')
