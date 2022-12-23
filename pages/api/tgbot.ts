@@ -44,23 +44,22 @@ const onDocumentHandler = async (ctx: any) => {
   await setFile(userId, fileId, file)
 }
 
+bot.start((ctx) => ctx.reply(ctx.chat.id.toString()))
+
+bot.on('document', async (ctx) => {
+  await onDocumentHandler(ctx)
+})
+
 const tgBot = async (req: NextApiRequest, res: NextApiResponse) => {
-  bot.start((ctx) => ctx.reply(ctx.chat.id.toString()))
-
-  bot.on('document', async (ctx) => {
-    await onDocumentHandler(ctx)
-  })
-
   if (req.query.setWebhook === 'true') {
-    console.log(
-      await bot.telegram.setWebhook(`${process.env.URL}/api/tgbot`),
-      process.env.URL
-    )
-
-    bot.launch()
+    await bot.telegram.setWebhook(`${process.env.URL}/api/tgbot`)
   }
 
-  res.status(200).send('OK')
+  if (req.method === 'POST') {
+    bot.handleUpdate(req.body)
+  }
+
+  return res.status(200).send('OK')
 }
 
 export default tgBot
