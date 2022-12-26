@@ -66,6 +66,8 @@ const tgBot = async (req: NextApiRequest, res: NextApiResponse) => {
         body: 'This endpoint is meant for bot and telegram communication',
       }
     }
+  } else {
+    return res.status(200).send('OK')
   }
 }
 
