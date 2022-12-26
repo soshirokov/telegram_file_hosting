@@ -41,17 +41,9 @@ const fileByMessageIdQuery = (userId: string, messageId: number) =>
 
 //DB Methods
 export const getUserByChatId = async (chatId: string) => {
-  console.log(userQuery(chatId))
+  const users = (await userQuery(chatId).get()).val()
 
-  try {
-    const users = (await userQuery(chatId).get()).val()
-
-    return Object.keys(users)[0]
-  } catch (e) {
-    console.log(e)
-
-    return ''
-  }
+  return Object.keys(users)[0]
 }
 export const getUserUploadFolderId = async (userId: string) =>
   (await getUserUploadFolderRef(userId).get()).val()

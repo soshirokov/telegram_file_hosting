@@ -14,7 +14,7 @@ import {
 
 const bot = new Telegraf(process.env.BOT_TOKEN ?? '')
 
-const onDocumentHandler = async (ctx: any) => {
+async function onDocumentHandler(ctx: any) {
   console.log('Doc handler start')
 
   const chatId = ctx.update.message.chat.id.toString()
@@ -55,12 +55,6 @@ const onDocumentHandler = async (ctx: any) => {
   console.log('Doc handler comleted')
 }
 
-bot.start((ctx) => ctx.reply(ctx.chat.id.toString()))
-
-bot.on('document', async (ctx) => {
-  await onDocumentHandler(ctx)
-})
-
 const tgBot = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.query.setWebhook === 'true') {
     await bot.telegram.setWebhook(`${process.env.URL}/api/tgbot`)
@@ -71,6 +65,12 @@ const tgBot = async (req: NextApiRequest, res: NextApiResponse) => {
 
     bot.handleUpdate(req.body)
   }
+
+  bot.start((ctx) => ctx.reply(ctx.chat.id.toString()))
+
+  bot.on('document', async (ctx) => {
+    await onDocumentHandler(ctx)
+  })
 
   return res.status(200).send('OK')
 }
