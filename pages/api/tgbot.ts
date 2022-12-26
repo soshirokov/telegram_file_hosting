@@ -57,7 +57,7 @@ const tgBot = async (req: NextApiRequest, res: NextApiResponse) => {
 
   if (req.method === 'POST') {
     try {
-      await bot.handleUpdate(JSON.parse(req.body))
+      await bot.handleUpdate(req.body)
       return { statusCode: 200, body: '' }
     } catch (e) {
       console.error('error in handler:', e)
