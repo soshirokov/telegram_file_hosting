@@ -67,9 +67,7 @@ const tgBot = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 
   if (req.method === 'POST') {
-    console.log(
-      await getUserByChatId(req.body.update.message.chat.id.toString())
-    )
+    console.log(await getUserByChatId('188905703'))
 
     bot.handleUpdate(req.body)
   }
