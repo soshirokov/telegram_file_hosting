@@ -5,7 +5,12 @@ import { FileServer } from 'types/File'
 import { FolderServer } from 'types/Folder'
 
 import { replyMessageToTelegram } from 'utils/api/tgAPI'
-import { getFolder, getUserUploadFolderId, setFile } from 'utils/firebase-admin'
+import {
+  getFolder,
+  getUserByChatId,
+  getUserUploadFolderId,
+  setFile,
+} from 'utils/firebase-admin'
 
 const bot = new Telegraf(process.env.BOT_TOKEN ?? '')
 
@@ -16,9 +21,7 @@ const onDocumentHandler = async (ctx: any) => {
 
   console.log('Doc handler chatID: ', chatId)
 
-  // const userId = await getUserByChatId(chatId)
-
-  const userId = 'efQqal5ESCWYIwu3I7otyNVMFSj2'
+  const userId = await getUserByChatId(chatId)
 
   console.log('Doc handler get params')
 
