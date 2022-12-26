@@ -17,11 +17,7 @@ const bot = new Telegraf(process.env.BOT_TOKEN ?? '')
 const onDocumentHandler = async (ctx: any) => {
   console.log('Doc handler start')
 
-  console.log(ctx)
-
   const chatId = ctx.update.message.chat.id.toString()
-
-  console.log('Doc handler chatID: ', chatId)
 
   const userId = await getUserByChatId(chatId)
 
@@ -71,6 +67,10 @@ const tgBot = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 
   if (req.method === 'POST') {
+    console.log(
+      await getUserByChatId(req.body.update.message.chat.id.toString())
+    )
+
     bot.handleUpdate(req.body)
   }
 
