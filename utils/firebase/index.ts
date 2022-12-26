@@ -9,14 +9,11 @@ import {
 } from 'firebase/auth'
 import {
   equalTo,
-  get,
   getDatabase,
   orderByChild,
   query,
   ref,
 } from 'firebase/database'
-
-import { FilesServer } from 'types/File'
 
 const firebaseConfig = JSON.parse(
   process.env.NEXT_PUBLIC_FIREBASE_CLIENT_CREDITS as string
@@ -81,12 +78,3 @@ export const fileByMessageIdQuery = (userId: string, messageId: number) =>
     orderByChild('messageId'),
     equalTo(messageId)
   )
-
-// DB Methods
-export const uploadFileId = async (userId: string, messageId: number) => {
-  const file: FilesServer = (
-    await get(fileByMessageIdQuery(userId, messageId))
-  ).val()
-
-  return file[Object.keys(file)[0]].uploadMessageId ?? 0
-}

@@ -7,7 +7,6 @@ import {
   sendFileToTeleram,
   updateFileInTelegram,
 } from 'utils/api/tgAPI'
-import { uploadFileId } from 'utils/firebase'
 import { getFileByMessageId, getUserByChatId } from 'utils/firebase-admin'
 
 export const config = {
@@ -56,7 +55,8 @@ export const put = (req: NextApiRequest, res: NextApiResponse) => {
     const download = await fetch(file)
 
     if ((await getFileByMessageId(userId, +messageId)).fromTelegram) {
-      const uploadId = await uploadFileId(userId, +messageId)
+      const uploadId =
+        (await getFileByMessageId(userId, +messageId))?.uploadMessageId ?? 0
       await deleteMessageFromTelegram(req.body?.chatId, uploadId)
     }
 
