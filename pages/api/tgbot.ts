@@ -20,8 +20,6 @@ bot.start((ctx) => ctx.reply(ctx.chat.id.toString()))
 bot.on(message('document'), async (ctx) => {
   const chatId = ctx.update.message.chat.id.toString()
 
-  console.warn(getUserByChatId)
-
   const userId = await getUserByChatId(chatId)
 
   const uploadFolderId = await getUserUploadFolderId(userId)
