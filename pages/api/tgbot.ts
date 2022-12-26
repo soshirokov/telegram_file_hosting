@@ -56,16 +56,7 @@ const tgBot = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 
   if (req.method === 'POST') {
-    try {
-      bot.handleUpdate(req.body)
-      return { statusCode: 200, body: '' }
-    } catch (e) {
-      console.error('error in handler:', e)
-      return {
-        statusCode: 400,
-        body: 'This endpoint is meant for bot and telegram communication',
-      }
-    }
+    bot.handleUpdate(req.body, res.status(200))
   } else {
     return res.status(200).send('OK')
   }
