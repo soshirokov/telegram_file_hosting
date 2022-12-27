@@ -8,7 +8,7 @@ import { FileClient } from 'types/File'
 
 import styles from './styles.module.scss'
 
-type Props = {
+export type Props = {
   files: FileClient[]
   onSelect: boolean
   onChangeFileName: (fileId: string, newFileName: string) => void

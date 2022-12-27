@@ -7,7 +7,7 @@ import { sendFileResponse, tgDocument } from 'types/TG'
 
 import styles from './styles.module.scss'
 
-type Props = {
+export type Props = {
   action: string
   data: { [key: string]: string }
   disabled: boolean

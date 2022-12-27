@@ -14,7 +14,7 @@ import { converFromBToMb } from 'helpers/converters'
 
 import styles from './styles.module.scss'
 
-type Props = {
+export type Props = {
   name: string
   onSelect: boolean
   size: number
@@ -27,7 +27,7 @@ type Props = {
   onRemoveSelectFile: (fileId: string) => void
 }
 
-const BIG_FILE_SIZE = 50
+export const BIG_FILE_SIZE = 50
 
 export const File = ({
   name,
@@ -103,7 +103,7 @@ export const File = ({
             onChange={checkHandler}
           />
         )}
-        {thumbURL ? (
+        {thumbURL.length > 0 ? (
           <div
             className={styles.File__Thumb}
             style={{ backgroundImage: `url(${thumbURL})` }}
@@ -145,7 +145,7 @@ export const File = ({
           <>
             <Input
               addonAfter={edit ? extension : false}
-              className={styles.File__Name}
+              className={cn(styles.File__Name, styles.File__Name_input)}
               value={fileName}
               onChange={changeNameHandler}
               onPressEnter={submitHandler}
