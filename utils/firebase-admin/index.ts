@@ -25,13 +25,12 @@ const getUserUploadFolderRef = (userId: string) =>
 
 // Folder Refs
 const getUserFolderRef = (userId: string, folderId: string) =>
-  database.ref(`users/${userId}/folders/${folderId}`)
+  database.ref(`folders/${userId}/${folderId}`)
 
 // File Refs
 const getUserFileRef = (userId: string, fileId: string) =>
-  database.ref(`users/${userId}/files/${fileId}`)
-const getAllUserFilesRef = (userId: string) =>
-  database.ref(`users/${userId}/files`)
+  database.ref(`files/${userId}/${fileId}`)
+const getAllUserFilesRef = (userId: string) => database.ref(`files/${userId}`)
 
 // Queries
 const userQuery = (chatId: string) =>

@@ -38,27 +38,26 @@ export const registerWithEmail = (email: string, password: string) =>
 const database = getDatabase(app)
 
 // User Refs
-export const getUsersRef = () => ref(database, '/users')
 export const getUserChatIdRef = (userId: string) =>
   ref(database, `users/${userId}/chatId`)
 export const getUserUploadFolderRef = (userId: string) =>
   ref(database, `users/${userId}/uploadFolderId`)
 // File Refs
 export const getAllUserFilesRef = (userId: string) =>
-  ref(database, `users/${userId}/files`)
+  ref(database, `files/${userId}`)
 export const getUserFileRef = (userId: string, fileId: string) =>
-  ref(database, `users/${userId}/files/${fileId}`)
+  ref(database, `files/${userId}/${fileId}`)
 export const getFileNameRef = (userId: string, fileId: string) =>
-  ref(database, `users/${userId}/files/${fileId}/name`)
+  ref(database, `files/${userId}/${fileId}/name`)
 export const getFileFolderNameRef = (userId: string, fileId: string) =>
-  ref(database, `users/${userId}/files/${fileId}/folderName`)
+  ref(database, `files/${userId}/${fileId}/folderName`)
 // Folder Refs
 export const getAllUserFoldersRef = (userId: string) =>
-  ref(database, `users/${userId}/folders/`)
+  ref(database, `folders/${userId}/`)
 export const getUserFolderRef = (userId: string, folderId: string) =>
-  ref(database, `users/${userId}/folders/${folderId}`)
+  ref(database, `folders/${userId}/${folderId}`)
 export const getFolderNameRef = (userId: string, folderId: string) =>
-  ref(database, `users/${userId}/folders/${folderId}/name`)
+  ref(database, `folders/${userId}/${folderId}/name`)
 
 // DB Query
 // Child folders
