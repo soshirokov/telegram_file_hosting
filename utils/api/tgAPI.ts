@@ -96,9 +96,5 @@ export const replyMessageToTelegram = (
   })
 }
 
-export const deleteMessageFromTelegram = (
-  chatId: string,
-  messageId: number
-) => {
+export const deleteMessageFromTelegram = (chatId: string, messageId: number) =>
   bot.telegram.deleteMessage(chatId, messageId)
-}

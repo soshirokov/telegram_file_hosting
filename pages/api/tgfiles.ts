@@ -55,21 +55,10 @@ export const put = (req: NextApiRequest, res: NextApiResponse) => {
     const download = await fetch(file)
 
     if ((await getFileByMessageId(userId, +messageId)).fromTelegram) {
-      console.log('try to delete raw file')
-
       const uploadId =
         (await getFileByMessageId(userId, +messageId))?.uploadMessageId ?? 0
-      await deleteMessageFromTelegram(req.body?.chatId, uploadId)
+      await deleteMessageFromTelegram(chatId, uploadId)
     }
-
-    console.log(
-      'try to rename file file',
-      download,
-      chatId,
-      newFileName,
-      messageId,
-      folderName
-    )
 
     const response = await updateFileInTelegram(
       download,
