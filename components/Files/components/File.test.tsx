@@ -67,7 +67,7 @@ describe('File component', () => {
       onRemoveSelectFile,
     })
 
-    let checkbox = container.querySelector('.File__Checkbox')
+    const checkbox = container.querySelector('.File__Checkbox')
 
     expect(container.querySelector('.File_select')).toBeInTheDocument()
     expect(container.querySelector('.File__Icon_edit')).not.toBeInTheDocument()
@@ -78,14 +78,10 @@ describe('File component', () => {
 
     await user.click(checkbox!)
 
-    checkbox = container.querySelector('.File__Checkbox')
-
     expect(onAddSelectFile).toBeCalled()
     expect(onAddSelectFile).toBeCalledWith(defaultProps.telegramFileId)
 
     await user.click(checkbox!)
-
-    checkbox = container.querySelector('.File__Checkbox')
 
     expect(onRemoveSelectFile).toBeCalled()
     expect(onRemoveSelectFile).toBeCalledWith(defaultProps.telegramFileId)
@@ -99,18 +95,21 @@ describe('File component', () => {
     const fileExtention = defaultProps.name.split('.').reverse()[0]
     const inputFileName = '_test'
 
-    const editBtn = container.querySelector('.File__Icon_edit')
+    let editBtn = container.querySelector('.File__Icon_edit')
     let fileNameInput = container.querySelector('.File__Name_input')
     let saveFileNameBtn = container.querySelector('.File__Icon_save')
 
+    expect(editBtn).toBeInTheDocument()
     expect(fileNameInput).not.toBeInTheDocument()
     expect(saveFileNameBtn).not.toBeInTheDocument()
 
     await user.click(editBtn!)
 
+    editBtn = container.querySelector('.File__Icon_edit')
     fileNameInput = container.querySelector('.File__Name_input')
     saveFileNameBtn = container.querySelector('.File__Icon_save')
 
+    expect(editBtn).not.toBeInTheDocument()
     expect(fileNameInput).toBeInTheDocument()
     expect(saveFileNameBtn).toBeInTheDocument()
 
@@ -122,9 +121,11 @@ describe('File component', () => {
 
     await user.click(saveFileNameBtn!)
 
+    editBtn = container.querySelector('.File__Icon_edit')
     fileNameInput = container.querySelector('.File__Name_input')
     saveFileNameBtn = container.querySelector('.File__Icon_save')
 
+    expect(editBtn).toBeInTheDocument()
     expect(fileNameInput).not.toBeInTheDocument()
     expect(saveFileNameBtn).not.toBeInTheDocument()
     expect(onChangeFileName).toBeCalled()

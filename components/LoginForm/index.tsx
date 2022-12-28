@@ -1,6 +1,11 @@
 import { useState } from 'react'
 
-type Props = {
+import { Button, Input } from 'antd'
+import cn from 'classnames'
+
+import styles from './styles.module.scss'
+
+export type Props = {
   onAuth: (email: string, password: string) => void
 }
 
@@ -15,8 +20,9 @@ export const LoginForm = ({ onAuth }: Props) => {
   return (
     <>
       <div>
-        <p>Email</p>
-        <input
+        <Input
+          className={cn(styles.LoginForm__Input, styles.LoginForm__Input_email)}
+          placeholder="Email"
           type="email"
           value={email}
           onChange={(e) => {
@@ -25,8 +31,12 @@ export const LoginForm = ({ onAuth }: Props) => {
         />
       </div>
       <div>
-        <p>Password</p>
-        <input
+        <Input
+          className={cn(
+            styles.LoginForm__Input,
+            styles.LoginForm__Input_password
+          )}
+          placeholder="Password"
           type="password"
           value={password}
           onChange={(e) => {
@@ -35,7 +45,13 @@ export const LoginForm = ({ onAuth }: Props) => {
         />
       </div>
       <div>
-        <button onClick={submitHandler}>Submit</button>
+        <Button
+          className={styles.LoginForm__Submit}
+          type="primary"
+          onClick={submitHandler}
+        >
+          Submit
+        </Button>
       </div>
     </>
   )

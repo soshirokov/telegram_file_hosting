@@ -12,7 +12,8 @@
     "prettier": "prettier --ignore-path .gitignore \"**/*.+(html|js|json|jsx|sass|yml)\"",
     "stylelint": "stylelint --ignore-path .gitignore \"**/*.+(css|scss)\"",
     "test": "jest --watch",
-    "test:ci": "npm run lint && jest --ci"
+    "test:ci": "npm run lint && jest --ci",
+    "test-coverage": "jest --coverage"
   },
   "dependencies": {
     "@ant-design/icons": "^4.7.0",

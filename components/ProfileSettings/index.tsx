@@ -6,13 +6,13 @@ import styles from './styles.module.scss'
 
 const { Title } = Typography
 
-type Props = {
+export type Props = {
   chatId: string
   setNewChatId: (chatId: string) => void
 }
 
 export const ProfileSettings = ({ chatId, setNewChatId }: Props) => {
-  const [chat, setChat] = useState(chatId)
+  const [chat, setChat] = useState('')
 
   const submitHandler = () => {
     setNewChatId(chat)
@@ -21,10 +21,16 @@ export const ProfileSettings = ({ chatId, setNewChatId }: Props) => {
 
   return (
     <>
-      <Title level={5}>Current Chat ID: {chatId}</Title>
-      <Input value={chat} onChange={(e) => setChat(e.target.value)} />
+      <Title className={styles.ProfileSettings__Title} level={5}>
+        Current Chat ID: {chatId}
+      </Title>
+      <Input
+        className={styles.ProfileSettings__ChatIdInput}
+        value={chat}
+        onChange={(e) => setChat(e.target.value)}
+      />
       <Button
-        className={styles.Profile__Button}
+        className={styles.ProfileSettings__Submit}
         type="primary"
         onClick={submitHandler}
       >

@@ -11,7 +11,7 @@ import { Button, Input, Modal, PageHeader } from 'antd'
 
 import styles from './styles.module.scss'
 
-type Props = {
+export type Props = {
   currentFolderName: string
   isActive: boolean
   modalEntry: React.ReactNode
@@ -94,21 +94,31 @@ export const Header = ({
           <>
             {!onSelect ? (
               <>
-                <Button icon={<SelectOutlined />} onClick={onSelectHandler}>
+                <Button
+                  className={styles.Header__SelectButton}
+                  icon={<SelectOutlined />}
+                  onClick={onSelectHandler}
+                >
                   Select
                 </Button>
                 <Input
+                  className={styles.Header__AddFolderInput}
                   type="text"
                   value={newFolder}
                   onChange={(e) => setNewFolder(e.target.value)}
                 />
-                <Button disabled={!newFolder} onClick={addFolderHandler}>
+                <Button
+                  className={styles.Header__AddFolderButton}
+                  disabled={!newFolder}
+                  onClick={addFolderHandler}
+                >
                   Add Folder
                 </Button>
               </>
             ) : (
               <>
                 <Button
+                  className={styles.Header__MoveButton}
                   disabled={!isActive}
                   icon={<DragOutlined />}
                   type="primary"
@@ -117,13 +127,18 @@ export const Header = ({
                   Move selected
                 </Button>
                 <Button
+                  className={styles.Header__DeleteButton}
                   disabled={!isActive}
                   icon={<DeleteOutlined />}
                   onClick={deleteClickHandler}
                 >
                   Remove selected
                 </Button>
-                <Button type="text" onClick={onCancelSelectHandler}>
+                <Button
+                  className={styles.Header__CancelButton}
+                  type="text"
+                  onClick={onCancelSelectHandler}
+                >
                   Cancel
                 </Button>
               </>
@@ -157,6 +172,7 @@ export const Header = ({
       />
       <Modal
         cancelText="Cancel"
+        className={styles.Header__Modal}
         okText="Move here"
         open={modalIsOpen}
         title={modalTitle}

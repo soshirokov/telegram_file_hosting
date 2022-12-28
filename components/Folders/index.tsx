@@ -2,13 +2,13 @@ import { useEffect, useState } from 'react'
 
 import { List } from 'antd'
 
-import { Folder } from './components/folder'
+import { Folder } from './components/Folder'
 
 import { FolderClient } from 'types/Folder'
 
 import styles from './styles.module.scss'
 
-type Props = {
+export type Props = {
   folders: FolderClient[]
   onSelect: boolean
   viewMode?: boolean
