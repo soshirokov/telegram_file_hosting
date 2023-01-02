@@ -9,8 +9,7 @@ if (admin.apps.length === 0) {
   admin.initializeApp(
     {
       credential: admin.credential.cert(serviceAccount as ServiceAccount),
-      databaseURL:
-        'https://tg-cloud-storage-default-rtdb.europe-west1.firebasedatabase.app',
+      databaseURL: process.env.FIREBASE_DATABASE_URL,
     },
     'AdminSDK'
   )
