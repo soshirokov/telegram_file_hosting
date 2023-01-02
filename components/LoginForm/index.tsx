@@ -22,6 +22,7 @@ export const LoginForm = ({ onAuth }: Props) => {
       <div>
         <Input
           className={cn(styles.LoginForm__Input, styles.LoginForm__Input_email)}
+          data-testid="loginEmail"
           placeholder="Email"
           type="email"
           value={email}
@@ -36,6 +37,7 @@ export const LoginForm = ({ onAuth }: Props) => {
             styles.LoginForm__Input,
             styles.LoginForm__Input_password
           )}
+          data-testid="loginPassword"
           placeholder="Password"
           type="password"
           value={password}
@@ -47,6 +49,7 @@ export const LoginForm = ({ onAuth }: Props) => {
       <div>
         <Button
           className={styles.LoginForm__Submit}
+          data-testid="loginSubmit"
           type="primary"
           onClick={submitHandler}
         >

@@ -42,7 +42,12 @@ export const FileUploader = ({ action, data, disabled, onNewFile }: Props) => {
   }
 
   return (
-    <Dragger {...props} className={styles.FileUploader} disabled={disabled}>
+    <Dragger
+      {...props}
+      className={styles.FileUploader}
+      data-testId="fileUploader"
+      disabled={disabled}
+    >
       <FileAddOutlined className={styles.FileUploader__Icon} />
       <div className={styles.FileUploader__Text}>
         Click or drag file to this area to upload

@@ -1,8 +1,6 @@
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 
-import { useAuthState } from 'react-firebase-hooks/auth'
-
-import { get, off, onValue, set } from 'firebase/database'
+import { get, set } from 'firebase/database'
 import { useRouter } from 'next/router'
 
 import { FilesContainer as Files } from 'containers/Files'
@@ -15,17 +13,10 @@ import { generateUID } from 'helpers/generators'
 
 import { Main } from 'layouts/Main'
 
-import {
-  auth,
-  getUserChatIdRef,
-  getUserFolderRef,
-  getUserUploadFolderRef,
-} from 'utils/firebase'
+import { getUserFolderRef, getUserUploadFolderRef } from 'utils/firebase'
 
 const Home = () => {
-  const [user, loading] = useAuthState(auth)
   const [currentFolderId, setCurrentFolderId] = useState('')
-  const [chatId, setChatid] = useState('')
   const [onSelect, setOnSelect] = useState(false)
   const [selected, setSelected] = useState<{
     files: string[]
@@ -35,9 +26,9 @@ const Home = () => {
     folders: [],
   })
   const router = useRouter()
-  const userUID = user?.uid ?? ''
+  const { userUID } = useContext(User)
 
-  if (!loading && !user?.uid) {
+  if (!userUID) {
     router.push('/profile')
   }
 
@@ -67,22 +58,6 @@ const Home = () => {
 
   useEffect(() => {
     if (userUID) {
-      onValue(getUserChatIdRef(userUID), (snapshot) => {
-        const result = snapshot.val()
-
-        const chat = result ? result : ''
-
-        setChatid(chat)
-      })
-
-      return () => {
-        off(getUserChatIdRef(userUID))
-      }
-    }
-  }, [userUID, chatId, currentFolderId])
-
-  useEffect(() => {
-    if (userUID) {
       get(getUserUploadFolderRef(userUID)).then((snapshot) => {
         const result = snapshot.val()
 
@@ -102,28 +77,26 @@ const Home = () => {
 
   return (
     <>
-      {!loading && (
-        <User.Provider value={{ userUID, chatId }}>
-          <Main>
-            <Header
-              changeFolderHandler={changeFolderHandler}
-              currentFolderId={currentFolderId}
-              selected={selected}
-              onToSelect={onToSelectHandler}
-            />
-            <Folders
-              changeFolderHandler={changeFolderHandler}
-              currentFolderId={currentFolderId}
-              onSelect={onSelect}
-              onSelectedChange={selectFoldersChangeHandler}
-            />
-            <Files
-              currentFolderId={currentFolderId}
-              onSelect={onSelect}
-              onSelectedChange={selectFilesChangeHandler}
-            />
-          </Main>
-        </User.Provider>
+      {userUID && (
+        <Main>
+          <Header
+            changeFolderHandler={changeFolderHandler}
+            currentFolderId={currentFolderId}
+            selected={selected}
+            onToSelect={onToSelectHandler}
+          />
+          <Folders
+            changeFolderHandler={changeFolderHandler}
+            currentFolderId={currentFolderId}
+            onSelect={onSelect}
+            onSelectedChange={selectFoldersChangeHandler}
+          />
+          <Files
+            currentFolderId={currentFolderId}
+            onSelect={onSelect}
+            onSelectedChange={selectFilesChangeHandler}
+          />
+        </Main>
       )}
     </>
   )

@@ -26,11 +26,13 @@ export const ProfileSettings = ({ chatId, setNewChatId }: Props) => {
       </Title>
       <Input
         className={styles.ProfileSettings__ChatIdInput}
+        data-testid="chatInput"
         value={chat}
         onChange={(e) => setChat(e.target.value)}
       />
       <Button
         className={styles.ProfileSettings__Submit}
+        data-testid="chatSubmit"
         type="primary"
         onClick={submitHandler}
       >

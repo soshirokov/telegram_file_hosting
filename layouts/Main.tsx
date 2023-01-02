@@ -1,6 +1,12 @@
+import { useContext } from 'react'
+
 import { Layout, Menu } from 'antd'
 import Head from 'next/head'
 import Link from 'next/link'
+
+import { User } from 'context/user'
+
+import { logout } from 'utils/firebase'
 
 import styles from './styles.module.scss'
 
@@ -11,10 +17,15 @@ type Props = {
 }
 
 export const Main = ({ children }: Props) => {
+  const { userUID } = useContext(User)
   const menuItems = [
     {
       label: (
-        <Link className={styles.Main__MenuLink} href={'/'}>
+        <Link
+          className={styles.Main__MenuLink}
+          data-testId="homeLink"
+          href={'/'}
+        >
           Home
         </Link>
       ),
@@ -22,11 +33,31 @@ export const Main = ({ children }: Props) => {
     },
     {
       label: (
-        <Link className={styles.Main__MenuLink} href={'/profile'}>
+        <Link
+          className={styles.Main__MenuLink}
+          data-testId="profileLink"
+          href={'/profile'}
+        >
           Profile
         </Link>
       ),
       key: 'profile',
+    },
+    {
+      label: userUID ? (
+        <div
+          className={styles.Main__MenuLink_logout}
+          data-testId="logoutLink"
+          onClick={logout}
+        >
+          Logout
+        </div>
+      ) : (
+        <Link className={styles.Main__MenuLink} href={'/profile'}>
+          Sign In
+        </Link>
+      ),
+      key: 'logout',
     },
   ]
 

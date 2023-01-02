@@ -93,6 +93,7 @@ export const File = ({
   return (
     <div
       className={cn(styles.File, { [styles.File_select]: onSelect })}
+      data-testId="fileItem"
       onClick={clickHandler}
     >
       <div className={styles.File__Desc}>
@@ -113,7 +114,9 @@ export const File = ({
         )}
         {!edit ? (
           <>
-            <div className={styles.File__Name}>{name}</div>
+            <div className={styles.File__Name} data-testId="fileName">
+              {name}
+            </div>
             {!onSelect &&
               (isBigFile ? (
                 <Tooltip title={"Files more 50Mb can't be renamed"}>
@@ -131,6 +134,7 @@ export const File = ({
               ) : (
                 <Button
                   className={styles.File__Icon_edit}
+                  data-testId="renameFile"
                   disabled={isBigFile}
                   icon={<EditOutlined />}
                   size={'middle'}
@@ -146,12 +150,14 @@ export const File = ({
             <Input
               addonAfter={edit ? extension : false}
               className={cn(styles.File__Name, styles.File__Name_input)}
+              data-testId="newFileNameInput"
               value={fileName}
               onChange={changeNameHandler}
               onPressEnter={submitHandler}
             />
             <Button
               className={styles.File__Icon_save}
+              data-testId="newFileNameSubmit"
               icon={<CheckOutlined />}
               size={'middle'}
               type="text"
@@ -172,6 +178,7 @@ export const File = ({
           />
           <Button
             className={styles.File__Delete}
+            data-testId="deteleFile"
             icon={<DeleteOutlined />}
             size={'middle'}
             type="text"
