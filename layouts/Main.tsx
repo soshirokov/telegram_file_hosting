@@ -1,4 +1,5 @@
 import { Layout, Menu } from 'antd'
+import Head from 'next/head'
 import Link from 'next/link'
 
 import styles from './styles.module.scss'
@@ -30,25 +31,50 @@ export const Main = ({ children }: Props) => {
   ]
 
   return (
-    <Layout className={styles.Main__Layout}>
-      <Header className={styles.Main__Header}>
-        <div className={styles.Main__Container}>
-          <Menu
-            className={styles.Main__Menu}
-            items={menuItems}
-            mode="horizontal"
-            theme="dark"
-          />
-        </div>
-      </Header>
-      <Content className={styles.Main__Content}>
-        <div className={styles.Main__Container}>
-          <div className={styles.Main__Wrap}>{children}</div>
-        </div>
-      </Content>
-      <Footer className={styles.Main__Footer}>
-        <div className={styles.Main__Container}></div>
-      </Footer>
-    </Layout>
+    <>
+      <Head>
+        <link
+          href="/apple-touch-icon.png"
+          rel="apple-touch-icon"
+          sizes="180x180"
+        />
+        <link
+          href="/favicon-32x32.png"
+          rel="icon"
+          sizes="32x32"
+          type="image/png"
+        />
+        <link
+          href="/favicon-16x16.png"
+          rel="icon"
+          sizes="16x16"
+          type="image/png"
+        />
+        <link href="/site.webmanifest" rel="manifest" />
+        <link color="#5bbad5" href="/safari-pinned-tab.svg" rel="mask-icon" />
+        <meta content="#da532c" name="msapplication-TileColor" />
+        <meta content="#ffffff" name="theme-color" />
+      </Head>
+      <Layout className={styles.Main__Layout}>
+        <Header className={styles.Main__Header}>
+          <div className={styles.Main__Container}>
+            <Menu
+              className={styles.Main__Menu}
+              items={menuItems}
+              mode="horizontal"
+              theme="dark"
+            />
+          </div>
+        </Header>
+        <Content className={styles.Main__Content}>
+          <div className={styles.Main__Container}>
+            <div className={styles.Main__Wrap}>{children}</div>
+          </div>
+        </Content>
+        <Footer className={styles.Main__Footer}>
+          <div className={styles.Main__Container}></div>
+        </Footer>
+      </Layout>
+    </>
   )
 }
