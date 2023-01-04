@@ -101,6 +101,7 @@ export const File = ({
           <Checkbox
             checked={isChecked}
             className={styles.File__Checkbox}
+            data-testId="fileSelectCheckbox"
             onChange={checkHandler}
           />
         )}

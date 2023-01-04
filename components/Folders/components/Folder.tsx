@@ -84,12 +84,17 @@ export const Folder = ({
   }, [onSelect])
 
   return (
-    <div className={styles.Folder} onClick={clickHandler}>
+    <div
+      className={styles.Folder}
+      data-testId={isUserUploadFolder ? 'UserUploadFolder' : 'FolderItem'}
+      onClick={clickHandler}
+    >
       <div className={styles.Folder__Desc}>
-        {onSelect && (
+        {onSelect && !isUserUploadFolder && (
           <Checkbox
             checked={isChecked}
             className={styles.Folder__Checkbox}
+            data-testId="folderSelectCheckbox"
             disabled={isUserUploadFolder}
             onChange={checkHandler}
             onClick={actionClickHandler}
@@ -98,10 +103,13 @@ export const Folder = ({
         <FolderOutlined className={styles.Folder__Icon} />
         {!edit ? (
           <>
-            <div className={styles.Folder__Name}>{folderName}</div>
+            <div className={styles.Folder__Name} data-testId="folderName">
+              {folderName}
+            </div>
             {!onSelect && !viewMode && (
               <Button
                 className={styles.Folder__Icon_edit}
+                data-testId="folderRenameButton"
                 icon={<EditOutlined />}
                 size={'middle'}
                 type="text"
@@ -116,6 +124,7 @@ export const Folder = ({
           <>
             <Input
               className={cn(styles.Folder__Name, styles.Folder__Name_input)}
+              data-testId="folderRenameInput"
               value={newName}
               onChange={changeNameHandler}
               onClick={(e) => {
@@ -127,6 +136,7 @@ export const Folder = ({
             />
             <Button
               className={styles.Folder__Icon_save}
+              data-testId="folderRenameSubmit"
               disabled={onSelect}
               icon={<CheckOutlined />}
               size={'middle'}
@@ -142,13 +152,14 @@ export const Folder = ({
             <Popconfirm
               cancelText="No"
               className={styles.Folder__Confirm}
-              okText="Yes"
+              okText={<span data-testId="confirmYesAction">Yes</span>}
               placement="top"
               title={'Delete the folder and all files?'}
               onConfirm={deleteHandler}
             >
               <Button
                 className={styles.Folder__Delete}
+                data-testId="deleteFolderButton"
                 disabled={onSelect}
                 icon={<DeleteOutlined />}
                 size={'middle'}
