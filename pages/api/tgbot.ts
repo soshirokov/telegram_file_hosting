@@ -20,12 +20,16 @@ bot.start((ctx) => ctx.reply(ctx.chat.id.toString()))
 
 bot.on(message('document'), async (ctx) => {
   await saveFile(
-    ctx.update.message.chat.id.toString(),
-    ctx.message.message_id,
-    ctx.update.message.document.file_name ?? '',
-    ctx.update.message.document.file_size ?? 0,
-    ctx.update.message.document.file_id,
-    ctx.update.message.document.thumb?.file_id ?? ''
+    {
+      chatId: ctx.update.message.chat.id.toString(),
+      messageId: ctx.update.message.message_id,
+    },
+    {
+      fileName: ctx.update.message.document.file_name ?? '',
+      fileSize: ctx.update.message.document.file_size ?? 0,
+      fileId: ctx.update.message.document.file_id,
+      fileThumbId: ctx.update.message.document.thumb?.file_id ?? '',
+    }
   )
 })
 
@@ -37,31 +41,39 @@ bot.on(message('photo'), async (ctx) => {
     '.jpg'
 
   await saveFile(
-    ctx.update.message.chat.id.toString(),
-    ctx.update.message.message_id,
-    photoFileName,
-    photoFile?.file_size ?? 0,
-    photoFile.file_id,
-    photoThumb.file_id
+    {
+      chatId: ctx.update.message.chat.id.toString(),
+      messageId: ctx.update.message.message_id,
+    },
+    {
+      fileName: photoFileName,
+      fileSize: photoFile?.file_size ?? 0,
+      fileId: photoFile.file_id,
+      fileThumbId: photoThumb.file_id,
+    }
   )
 })
 
 const saveFile = async (
-  chatId: string,
-  messageId: number,
-  fileName: string,
-  fileSize: number,
-  fileId: string,
-  fileThumbId: string
+  messageInfo: {
+    chatId: string
+    messageId: number
+  },
+  fileInfo: {
+    fileName: string
+    fileSize: number
+    fileId: string
+    fileThumbId: string
+  }
 ) => {
-  const userId = await getUserByChatId(chatId)
+  const userId = await getUserByChatId(messageInfo.chatId)
 
   const uploadFolderId = await getUserUploadFolderId(userId)
   const uploadFolder: FolderServer = await getFolder(userId, uploadFolderId)
 
   const message = await replyMessageToTelegram(
-    chatId,
-    messageId,
+    messageInfo.chatId,
+    messageInfo.messageId,
     'Uploaded in ',
     uploadFolder.name
   )
@@ -69,15 +81,15 @@ const saveFile = async (
   const file: FileServer = {
     folderId: uploadFolderId,
     folderName: uploadFolder.name,
-    name: fileName,
-    size: fileSize,
+    name: fileInfo.fileName,
+    size: fileInfo.fileSize,
     messageId: message.message_id ?? 0,
-    thumbId: fileThumbId,
+    thumbId: fileInfo.fileThumbId,
     fromTelegram: true,
-    uploadMessageId: messageId,
+    uploadMessageId: messageInfo.messageId,
   }
 
-  await setFile(userId, fileId, file)
+  await setFile(userId, fileInfo.fileId, file)
 }
 
 const tgBot = async (req: NextApiRequest, res: NextApiResponse) => {
