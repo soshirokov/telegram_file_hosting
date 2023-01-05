@@ -33,6 +33,21 @@ bot.on(message('document'), async (ctx) => {
   )
 })
 
+bot.on(message('video'), async (ctx) => {
+  await saveFile(
+    {
+      chatId: ctx.update.message.chat.id.toString(),
+      messageId: ctx.update.message.message_id,
+    },
+    {
+      fileName: ctx.update.message.video.file_name ?? '',
+      fileSize: ctx.update.message.video.file_size ?? 0,
+      fileId: ctx.update.message.video.file_id,
+      fileThumbId: ctx.update.message.video.thumb?.file_id ?? '',
+    }
+  )
+})
+
 bot.on(message('photo'), async (ctx) => {
   const photoThumb = ctx.update.message.photo.slice(1)[0]
   const photoFile = ctx.update.message.photo.slice(-1)[0]

@@ -12,6 +12,7 @@ import { getFileByMessageId, getUserByChatId } from 'utils/firebase-admin'
 export const config = {
   api: {
     bodyParser: false,
+    responseLimit: false,
   },
 }
 
