@@ -1,3 +1,4 @@
+import { format } from 'date-fns'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { Telegraf } from 'telegraf'
 import { message } from 'telegraf/filters'
@@ -18,8 +19,41 @@ const bot = new Telegraf(process.env.BOT_TOKEN ?? '')
 bot.start((ctx) => ctx.reply(ctx.chat.id.toString()))
 
 bot.on(message('document'), async (ctx) => {
-  const chatId = ctx.update.message.chat.id.toString()
+  await saveFile(
+    ctx.update.message.chat.id.toString(),
+    ctx.message.message_id,
+    ctx.update.message.document.file_name ?? '',
+    ctx.update.message.document.file_size ?? 0,
+    ctx.update.message.document.file_id,
+    ctx.update.message.document.thumb?.file_id ?? ''
+  )
+})
 
+bot.on(message('photo'), async (ctx) => {
+  const photoThumb = ctx.update.message.photo.slice(1)[0]
+  const photoFile = ctx.update.message.photo.slice(-1)[0]
+  const photoFileName =
+    format(new Date(ctx.update.message.date * 1000), 'HH.mm_dd.MM.yyyy') +
+    '.jpg'
+
+  await saveFile(
+    ctx.update.message.chat.id.toString(),
+    ctx.update.message.message_id,
+    photoFileName,
+    photoFile?.file_size ?? 0,
+    photoFile.file_id,
+    photoThumb.file_id
+  )
+})
+
+const saveFile = async (
+  chatId: string,
+  messageId: number,
+  fileName: string,
+  fileSize: number,
+  fileId: string,
+  fileThumbId: string
+) => {
   const userId = await getUserByChatId(chatId)
 
   const uploadFolderId = await getUserUploadFolderId(userId)
@@ -27,7 +61,7 @@ bot.on(message('document'), async (ctx) => {
 
   const message = await replyMessageToTelegram(
     chatId,
-    ctx.message.message_id,
+    messageId,
     'Uploaded in ',
     uploadFolder.name
   )
@@ -35,18 +69,16 @@ bot.on(message('document'), async (ctx) => {
   const file: FileServer = {
     folderId: uploadFolderId,
     folderName: uploadFolder.name,
-    name: ctx.update.message.document.file_name ?? '',
-    size: ctx.update.message.document.file_size ?? 0,
+    name: fileName,
+    size: fileSize,
     messageId: message.message_id ?? 0,
-    thumbId: ctx.update.message.document.thumb?.file_id ?? '',
+    thumbId: fileThumbId,
     fromTelegram: true,
-    uploadMessageId: ctx.message.message_id ?? 0,
+    uploadMessageId: messageId,
   }
 
-  const fileId = ctx.update.message.document.file_id
-
   await setFile(userId, fileId, file)
-})
+}
 
 const tgBot = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.query.setWebhook === 'true') {

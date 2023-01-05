@@ -33,6 +33,7 @@
     "antd": "^4.24.1",
     "buffer": "^6.0.3",
     "classnames": "^2.3.2",
+    "date-fns": "^2.29.3",
     "eslint": "8.27.0",
     "eslint-config-next": "13.0.2",
     "eslint-config-prettier": "^8.5.0",
