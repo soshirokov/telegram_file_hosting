@@ -36,6 +36,10 @@ const userQuery = (chatId: string) =>
   getUsers.orderByChild('chatId').equalTo(chatId)
 const fileByMessageIdQuery = (userId: string, messageId: number) =>
   getAllUserFilesRef(userId).orderByChild('messageId').equalTo(messageId)
+const fileByUploadMessageIdQuery = (userId: string, uploadMessageId: number) =>
+  getAllUserFilesRef(userId)
+    .orderByChild('uploadMessageId')
+    .equalTo(uploadMessageId)
 
 //DB Methods
 export const getUserByChatId = async (chatId: string) => {
@@ -52,12 +56,46 @@ export const getFolder = async (userId: string, folderId: string) =>
 export const getFileByMessageId = async (
   userId: string,
   messageId: number
-): Promise<FileServer> => {
+): Promise<FileServer | null> => {
   const files: FilesServer = (
     await fileByMessageIdQuery(userId, messageId).get()
   ).val()
 
+  if (!files) {
+    return null
+  }
+
   return files[Object.keys(files)[0]]
+}
+
+export const getFileByUploadMessageId = async (
+  userId: string,
+  uploadMessageId: number
+): Promise<FileServer | null> => {
+  const files: FilesServer = (
+    await fileByUploadMessageIdQuery(userId, uploadMessageId).get()
+  ).val()
+
+  if (!files) {
+    return null
+  }
+
+  return files[Object.keys(files)[0]]
+}
+
+export const getFileIdByMessageId = async (
+  userId: string,
+  messageId: number
+): Promise<string> => {
+  const files: FilesServer = (
+    await fileByMessageIdQuery(userId, messageId).get()
+  ).val()
+
+  if (!files) {
+    return ''
+  }
+
+  return Object.keys(files)[0]
 }
 
 export const setFile = async (
@@ -65,3 +103,7 @@ export const setFile = async (
   fileId: string,
   payload: FileServer
 ) => getUserFileRef(userId, fileId).set(payload)
+
+export const removeFile = async (userId: string, fileId: string) => {
+  return getUserFileRef(userId, fileId).remove()
+}

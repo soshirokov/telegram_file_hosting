@@ -6,17 +6,30 @@ import { message } from 'telegraf/filters'
 import { FileServer } from 'types/File'
 import { FolderServer } from 'types/Folder'
 
-import { replyMessageToTelegram } from 'utils/api/tgAPI'
 import {
+  deleteMessageFromTelegram,
+  replyMessageToTelegram,
+} from 'utils/api/tgAPI'
+import {
+  getFileByMessageId,
+  getFileByUploadMessageId,
+  getFileIdByMessageId,
   getFolder,
   getUserByChatId,
   getUserUploadFolderId,
+  removeFile,
   setFile,
 } from 'utils/firebase-admin'
 
 const bot = new Telegraf(process.env.BOT_TOKEN ?? '')
 
-bot.start((ctx) => ctx.reply(ctx.chat.id.toString()))
+bot.start((ctx) => {
+  bot.telegram.setMyCommands([
+    { command: 'start', description: 'get my ID' },
+    { command: 'delete', description: 'delete selected file' },
+  ])
+  ctx.reply(ctx.chat.id.toString())
+})
 
 bot.on(message('document'), async (ctx) => {
   await saveFile(
@@ -31,6 +44,39 @@ bot.on(message('document'), async (ctx) => {
       fileThumbId: ctx.update.message.document.thumb?.file_id ?? '',
     }
   )
+})
+
+bot.command('delete', async (ctx) => {
+  console.log(ctx.update.message)
+  if (!ctx.update.message?.reply_to_message) {
+    ctx.reply('Reply this command to file, that yo want to delete')
+    return null
+  }
+
+  const chatId = ctx.update.message.chat.id.toString()
+  const messageWithFile = ctx.update.message.reply_to_message.message_id
+  const userId = await getUserByChatId(chatId)
+
+  const fileToRemove =
+    (await getFileByMessageId(userId, messageWithFile)) ||
+    (await getFileByUploadMessageId(userId, messageWithFile))
+
+  if (!fileToRemove) {
+    ctx.reply('Something go wrong, no such file... =(')
+    return null
+  }
+
+  const fileId = await getFileIdByMessageId(userId, fileToRemove.messageId)
+
+  await removeFile(userId, fileId)
+
+  if (fileToRemove?.uploadMessageId) {
+    deleteMessageFromTelegram(chatId, fileToRemove.uploadMessageId)
+  }
+
+  deleteMessageFromTelegram(chatId, fileToRemove.messageId)
+  ctx.reply(`File ${fileToRemove.name} deleted`)
+  deleteMessageFromTelegram(chatId, messageWithFile)
 })
 
 bot.on(message('video'), async (ctx) => {

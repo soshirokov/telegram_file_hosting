@@ -24,7 +24,9 @@ export const put = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.body?.chatId && req.body?.messageId) {
     const userId = await getUserByChatId(req.body.chatId)
 
-    if ((await getFileByMessageId(userId, +req.body.messageId)).fromTelegram) {
+    const fileOnServer = await getFileByMessageId(userId, +req.body.messageId)
+
+    if (fileOnServer && fileOnServer.fromTelegram) {
       const message = await changeMessage(
         req.body.chatId,
         +req.body.messageId,
@@ -48,10 +50,10 @@ export const remove = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.body?.messageId && req.body?.chatId) {
     const userId = await getUserByChatId(req.body.chatId)
 
-    if ((await getFileByMessageId(userId, +req.body.messageId)).fromTelegram) {
-      const uploadId =
-        (await getFileByMessageId(userId, +req.body.messageId))
-          ?.uploadMessageId ?? 0
+    const fileOnServer = await getFileByMessageId(userId, +req.body.messageId)
+
+    if (fileOnServer && fileOnServer.fromTelegram) {
+      const uploadId = fileOnServer?.uploadMessageId ?? 0
       await deleteMessageFromTelegram(req.body?.chatId, +req.body?.messageId)
       const message = await deleteMessageFromTelegram(
         req.body?.chatId,

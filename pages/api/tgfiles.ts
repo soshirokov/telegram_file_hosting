@@ -55,9 +55,10 @@ export const put = (req: NextApiRequest, res: NextApiResponse) => {
     const file = await getFileLinkFromTelegram(fileId)
     const download = await fetch(file)
 
-    if ((await getFileByMessageId(userId, +messageId)).fromTelegram) {
-      const uploadId =
-        (await getFileByMessageId(userId, +messageId))?.uploadMessageId ?? 0
+    const fileOnServer = await getFileByMessageId(userId, +messageId)
+
+    if (fileOnServer && fileOnServer.fromTelegram) {
+      const uploadId = fileOnServer?.uploadMessageId ?? 0
       await deleteMessageFromTelegram(chatId, uploadId)
     }
 
