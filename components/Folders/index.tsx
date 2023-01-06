@@ -11,6 +11,7 @@ import styles from './styles.module.scss'
 export type Props = {
   folders: FolderClient[]
   onSelect: boolean
+  selectAll: boolean
   viewMode?: boolean
   onChangeFolderName?: (folderId: string, folderName: string) => void
   onClickFolder: (folderId: string) => void
@@ -21,6 +22,7 @@ export type Props = {
 export const Folders = ({
   folders,
   onSelect,
+  selectAll,
   viewMode = false,
   onChangeFolderName = () => {},
   onClickFolder,
@@ -58,6 +60,19 @@ export const Folders = ({
     }
   }, [onSelect])
 
+  useEffect(() => {
+    if (selectAll) {
+      setSelected(
+        folders
+          .filter((folder) => !folder?.isUserUploadFolder)
+          .map((folder) => folder.folderId)
+      )
+    } else {
+      setSelected([])
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectAll, folders])
+
   return (
     <>
       {folders.length > 0 ? (
@@ -69,6 +84,11 @@ export const Folders = ({
               <Folder
                 folderId={folder.folderId}
                 folderName={folder.folderName}
+                isSelected={Boolean(
+                  selectedFolders.find(
+                    (folderId) => folderId === folder.folderId
+                  )
+                )}
                 isUserUploadFolder={folder?.isUserUploadFolder}
                 viewMode={viewMode}
                 onAddSelectFolder={addSelectedFolderHandler}

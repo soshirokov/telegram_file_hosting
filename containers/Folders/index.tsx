@@ -21,7 +21,9 @@ import {
 
 type Props = {
   currentFolderId: string
+  excludeFolders?: string[]
   onSelect?: boolean
+  selectAll?: boolean
   viewMode?: boolean
   changeFolderHandler: (folderId: string) => void
   onSelectedChange?: (folders: string[]) => void
@@ -29,7 +31,9 @@ type Props = {
 
 export const FoldersContainer = ({
   currentFolderId,
+  excludeFolders = [],
   onSelect = false,
+  selectAll = false,
   viewMode = false,
   changeFolderHandler,
   onSelectedChange = () => {},
@@ -84,7 +88,18 @@ export const FoldersContainer = ({
               }))
             : []
 
-          setFolderList(folders)
+          const foldersToDisplay = excludeFolders
+            ? folders.filter(
+                (folder) =>
+                  !Boolean(
+                    excludeFolders.find(
+                      (folderId) => folderId === folder.folderId
+                    )
+                  )
+              )
+            : folders
+
+          setFolderList(foldersToDisplay)
         })
       }
       fetchInitialData()
@@ -93,11 +108,12 @@ export const FoldersContainer = ({
         off(foldersByParentQuery(userUID, currentFolderId))
       }
     }
-  }, [userUID, currentFolderId, onSelect])
+  }, [userUID, currentFolderId, onSelect, excludeFolders])
 
   return (
     <Folders
       folders={folderList}
+      selectAll={selectAll}
       viewMode={viewMode}
       onChangeFolderName={changeFolerNameHandler}
       onClickFolder={changeFolderHandler}

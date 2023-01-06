@@ -2,6 +2,8 @@ import { useState } from 'react'
 
 import {
   ArrowLeftOutlined,
+  CheckSquareOutlined,
+  CloseSquareOutlined,
   DeleteOutlined,
   DragOutlined,
   FolderOpenOutlined,
@@ -18,6 +20,7 @@ export type Props = {
   modalIsOpen: boolean
   modalTitle: string
   prevFolder: string
+  selectAll: boolean
   onAddFolder?: (folderName: string) => void
   onClickFolder: (folderId: string) => void
   onDeleteSelected: () => void
@@ -25,6 +28,7 @@ export type Props = {
   onModalSubmit: () => void
   onMoveSelected: () => void
   onToSelect: (onSelect: boolean) => void
+  onSelectAll: () => void
 }
 
 export const Header = ({
@@ -34,6 +38,7 @@ export const Header = ({
   modalTitle,
   modalIsOpen = false,
   prevFolder,
+  selectAll,
   onAddFolder = () => {},
   onClickFolder,
   onDeleteSelected = () => {},
@@ -41,6 +46,7 @@ export const Header = ({
   onModalSubmit = () => {},
   onMoveSelected = () => {},
   onToSelect = () => {},
+  onSelectAll = () => {},
 }: Props) => {
   const [newFolder, setNewFolder] = useState('')
   const [onSelect, setOnSelect] = useState(false)
@@ -120,6 +126,21 @@ export const Header = ({
               </>
             ) : (
               <>
+                <Button
+                  className={styles.Header__SelectAllButton}
+                  data-testid="selectAllButton"
+                  icon={
+                    selectAll ? (
+                      <CloseSquareOutlined />
+                    ) : (
+                      <CheckSquareOutlined />
+                    )
+                  }
+                  type="link"
+                  onClick={onSelectAll}
+                >
+                  {selectAll ? 'Unselect All' : 'Select All'}
+                </Button>
                 <Button
                   className={styles.Header__MoveButton}
                   data-testid="bulkMoveButton"

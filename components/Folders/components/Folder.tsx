@@ -14,6 +14,7 @@ import styles from './styles.module.scss'
 export type Props = {
   folderName: string
   folderId: string
+  isSelected: boolean
   isUserUploadFolder?: boolean
   onSelect: boolean
   viewMode?: boolean
@@ -27,6 +28,7 @@ export type Props = {
 export const Folder = ({
   folderName,
   folderId,
+  isSelected,
   isUserUploadFolder,
   onSelect,
   viewMode = false,
@@ -82,6 +84,10 @@ export const Folder = ({
   useEffect(() => {
     setIsChecked(false)
   }, [onSelect])
+
+  useEffect(() => {
+    setIsChecked(isSelected)
+  }, [isSelected])
 
   return (
     <div

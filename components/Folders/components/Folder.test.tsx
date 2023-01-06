@@ -7,6 +7,7 @@ import { Folder, Props } from './Folder'
 const defaultProps: Props = {
   folderName: 'Folder',
   folderId: '1111',
+  isSelected: false,
   isUserUploadFolder: false,
   onSelect: false,
   viewMode: false,

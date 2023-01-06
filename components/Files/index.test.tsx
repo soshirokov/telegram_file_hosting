@@ -37,6 +37,7 @@ const TEST_FILES: FileClient[] = [
 
 const defaultProps: Props = {
   files: TEST_FILES,
+  selectAll: false,
   onSelect: false,
   onChangeFileName: () => {},
   onDeleteFile: () => {},

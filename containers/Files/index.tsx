@@ -32,12 +32,14 @@ import url from 'utils/url'
 type Props = {
   currentFolderId: string
   onSelect: boolean
+  selectAll: boolean
   onSelectedChange: (files: string[]) => void
 }
 
 export const FilesContainer = ({
   currentFolderId,
   onSelect,
+  selectAll,
   onSelectedChange,
 }: Props) => {
   const [currentFolder, setCurrentFolder] = useState<FolderServer>()
@@ -157,6 +159,7 @@ export const FilesContainer = ({
     <>
       <Files
         files={fileList}
+        selectAll={selectAll}
         onChangeFileName={changeFileNameHandler}
         onDeleteFile={deleteFileHandler}
         onGetFile={getFileHandler}

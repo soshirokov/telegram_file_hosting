@@ -16,19 +16,23 @@ import { FolderServer } from 'types/Folder'
 import { updateCaption } from 'utils/api/appAPI'
 import { getUserFileRef, getUserFolderRef } from 'utils/firebase'
 
-import { FoldersContainer } from '../Folders'
+import { FoldersContainer as Folders } from '../Folders'
 
 type Props = {
   currentFolderId: string
+  selectAll: boolean
   selected: { files: string[]; folders: string[] }
   changeFolderHandler: (folderId: string) => void
+  changeSelectAll: () => void
   onToSelect: (onSelect: boolean) => void
 }
 
 export const HeaderContainer = ({
   currentFolderId,
+  selectAll,
   selected,
   changeFolderHandler,
+  changeSelectAll,
   onToSelect,
 }: Props) => {
   const { userUID, chatId } = useContext(User)
@@ -146,21 +150,24 @@ export const HeaderContainer = ({
         currentFolderName={currentFolder?.name ?? ''}
         isActive={isActive}
         modalEntry={
-          <FoldersContainer
+          <Folders
             changeFolderHandler={changeMoveFolderHandler}
             currentFolderId={moveFolderId}
+            excludeFolders={selected.folders}
             viewMode={true}
           />
         }
         modalIsOpen={isModalOpen}
         modalTitle={moveFolderName || 'Main folder'}
         prevFolder={currentFolder?.parent ?? ''}
+        selectAll={selectAll}
         onAddFolder={addFolderHandler}
         onClickFolder={changeFolderHandler}
         onDeleteSelected={deleteSelectedHandler}
         onModalCancel={modalCancelHandler}
         onModalSubmit={modalSubmitHandler}
         onMoveSelected={moveSelectedHandler}
+        onSelectAll={changeSelectAll}
         onToSelect={onToSelect}
       />
     </>

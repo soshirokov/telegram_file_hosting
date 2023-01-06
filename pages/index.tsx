@@ -25,6 +25,7 @@ const Home = () => {
     files: [],
     folders: [],
   })
+  const [selectAll, setSelectAll] = useState(false)
   const router = useRouter()
   const { userUID } = useContext(User)
 
@@ -46,6 +47,7 @@ const Home = () => {
 
   const clearSelected = () => {
     setSelected((prevState) => ({ ...prevState, files: [], folders: [] }))
+    setSelectAll(false)
   }
 
   const selectFilesChangeHandler = (files: string[]) => {
@@ -54,6 +56,10 @@ const Home = () => {
 
   const selectFoldersChangeHandler = (folders: string[]) => {
     setSelected((prevState) => ({ ...prevState, folders: folders }))
+  }
+
+  const selectAllHandler = () => {
+    setSelectAll(!selectAll)
   }
 
   useEffect(() => {
@@ -81,18 +87,22 @@ const Home = () => {
         <Main>
           <Header
             changeFolderHandler={changeFolderHandler}
+            changeSelectAll={selectAllHandler}
             currentFolderId={currentFolderId}
+            selectAll={selectAll}
             selected={selected}
             onToSelect={onToSelectHandler}
           />
           <Folders
             changeFolderHandler={changeFolderHandler}
             currentFolderId={currentFolderId}
+            selectAll={selectAll}
             onSelect={onSelect}
             onSelectedChange={selectFoldersChangeHandler}
           />
           <Files
             currentFolderId={currentFolderId}
+            selectAll={selectAll}
             onSelect={onSelect}
             onSelectedChange={selectFilesChangeHandler}
           />

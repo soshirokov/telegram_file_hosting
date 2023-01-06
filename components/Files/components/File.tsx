@@ -16,6 +16,7 @@ import styles from './styles.module.scss'
 
 export type Props = {
   name: string
+  isSelected: boolean
   onSelect: boolean
   size: number
   telegramFileId: string
@@ -31,6 +32,7 @@ export const BIG_FILE_SIZE = 50
 
 export const File = ({
   name,
+  isSelected,
   onSelect,
   size,
   telegramFileId,
@@ -89,6 +91,10 @@ export const File = ({
   useEffect(() => {
     setIsChecked(false)
   }, [onSelect])
+
+  useEffect(() => {
+    setIsChecked(isSelected)
+  }, [isSelected])
 
   return (
     <div

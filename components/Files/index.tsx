@@ -11,6 +11,7 @@ import styles from './styles.module.scss'
 export type Props = {
   files: FileClient[]
   onSelect: boolean
+  selectAll: boolean
   onChangeFileName: (fileId: string, newFileName: string) => void
   onDeleteFile: (fileId: string) => void
   onGetFile: (fileId: string) => void
@@ -20,6 +21,7 @@ export type Props = {
 export const Files = ({
   files,
   onSelect,
+  selectAll,
   onChangeFileName,
   onDeleteFile,
   onGetFile,
@@ -60,6 +62,15 @@ export const Files = ({
     }
   }, [onSelect])
 
+  useEffect(() => {
+    if (selectAll) {
+      setSelected(files.map((file) => file.telegramFileId))
+    } else {
+      setSelected([])
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectAll, files])
+
   return (
     <div className={styles.Files}>
       {files.length > 0 && (
@@ -70,6 +81,9 @@ export const Files = ({
             <List.Item className={styles.Files__ListItem}>
               <File
                 key={file.telegramFileId}
+                isSelected={Boolean(
+                  selectedFiles.find((fileId) => fileId === file.telegramFileId)
+                )}
                 name={file.name}
                 size={file.size}
                 telegramFileId={file.telegramFileId}

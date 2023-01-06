@@ -8,6 +8,7 @@ import { BIG_FILE_SIZE, File, Props } from './File'
 
 const defaultProps: Props = {
   name: 'File1.pdf',
+  isSelected: false,
   onSelect: false,
   size: 1000,
   telegramFileId: '1111',

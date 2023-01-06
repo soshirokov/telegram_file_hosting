@@ -24,9 +24,8 @@
       "pages/*": ["pages/*"],
       "types/*": ["types/*"],
       "utils/*": ["utils/*"]
-    },
-    "types": ["cypress", "cypress-file-upload"]
+    }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules", "./cypress.config.ts"]
 }

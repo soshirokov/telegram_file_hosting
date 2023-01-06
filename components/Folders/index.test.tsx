@@ -29,6 +29,7 @@ const TEST_FOLDERS: FolderClient[] = [
 const defaultProps: Props = {
   folders: TEST_FOLDERS,
   onSelect: false,
+  selectAll: false,
   viewMode: false,
   onChangeFolderName: () => {},
   onClickFolder: () => {},
