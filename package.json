@@ -8,6 +8,7 @@
     "cypress:open": "cypress open",
     "dev": "next dev",
     "eslint": "eslint --ignore-path .gitignore .",
+    "jest:ci": "jest --ci",
     "lint": "npm run prettier -- --check && npm run eslint && npm run stylelint",
     "lint:fix": "npm run prettier -- --write && npm run eslint -- --fix && npm run stylelint -- --fix",
     "prepare": "husky install",
@@ -17,7 +18,7 @@
     "storybook": "start-storybook -p 6006",
     "storybook:ci": "start-storybook --ci --smoke-test",
     "test": "jest --watch",
-    "test:ci": "npm run lint && jest --ci && npm run storybook:ci",
+    "test:ci": "npm run lint && npm run jest:ci && npm run storybook:ci",
     "test-coverage": "jest --coverage"
   },
   "dependencies": {
