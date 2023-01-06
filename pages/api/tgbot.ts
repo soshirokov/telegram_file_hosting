@@ -1,6 +1,6 @@
 import { format } from 'date-fns'
 import { NextApiRequest, NextApiResponse } from 'next'
-import { Telegraf } from 'telegraf'
+import { Context, Telegraf } from 'telegraf'
 import { message } from 'telegraf/filters'
 
 import { FileServer } from 'types/File'
@@ -21,6 +21,8 @@ import {
   setFile,
 } from 'utils/firebase-admin'
 
+const REPLY_AUTODELETE_DELAY = 10000
+
 const bot = new Telegraf(process.env.BOT_TOKEN ?? '')
 
 bot.start((ctx) => {
@@ -32,12 +34,17 @@ bot.start((ctx) => {
 })
 
 bot.command('delete', async (ctx) => {
+  const chatId = ctx.update.message.chat.id.toString()
+
   if (!ctx.update.message?.reply_to_message) {
-    ctx.reply('Reply this command to file, that yo want to delete')
+    await autoDeleteReply(
+      ctx,
+      'Reply this command to file, that yo want to delete'
+    )
+    await deleteMessageFromTelegram(chatId, ctx.update.message.message_id)
     return null
   }
 
-  const chatId = ctx.update.message.chat.id.toString()
   const messageWithFile = ctx.update.message.reply_to_message.message_id
   const userId = await getUserByChatId(chatId)
 
@@ -46,24 +53,20 @@ bot.command('delete', async (ctx) => {
     (await getFileByUploadMessageId(userId, messageWithFile))
 
   if (!fileToRemove) {
-    ctx.reply('Something go wrong, no such file... =(')
+    await autoDeleteReply(ctx, 'Something go wrong, no such file... =(')
+    await deleteMessageFromTelegram(chatId, ctx.update.message.message_id)
     return null
   }
 
   const fileId = await getFileIdByMessageId(userId, fileToRemove.messageId)
 
-  console.log('Start removing', fileToRemove, fileId)
-
   await removeFile(userId, fileId)
 
   if (fileToRemove?.uploadMessageId) {
-    console.log('Removing upload message', fileToRemove.uploadMessageId)
     await deleteMessageFromTelegram(chatId, fileToRemove.uploadMessageId)
   }
-  console.log('Removing bot message', fileToRemove.messageId)
   await deleteMessageFromTelegram(chatId, fileToRemove.messageId)
-  ctx.reply(`File ${fileToRemove.name} deleted`)
-  console.log('Removing init message', ctx.update.message.message_id)
+  await autoDeleteReply(ctx, `File ${fileToRemove.name} is deleted`)
   await deleteMessageFromTelegram(chatId, ctx.update.message.message_id)
 })
 
@@ -136,6 +139,17 @@ bot.on(message('voice'), async (ctx) => {
     }
   )
 })
+
+const autoDeleteReply = async (ctx: Context, message: string) => {
+  const replyMsg = await ctx.reply(message)
+
+  setTimeout(async () => {
+    await deleteMessageFromTelegram(
+      replyMsg.chat.id.toString(),
+      replyMsg.message_id
+    )
+  }, REPLY_AUTODELETE_DELAY)
+}
 
 const saveFile = async (
   messageInfo: {
