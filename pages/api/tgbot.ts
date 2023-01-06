@@ -61,7 +61,7 @@ bot.command('delete', async (ctx) => {
 
   deleteMessageFromTelegram(chatId, fileToRemove.messageId)
   ctx.reply(`File ${fileToRemove.name} deleted`)
-  deleteMessageFromTelegram(chatId, messageWithFile)
+  deleteMessageFromTelegram(chatId, ctx.update.message.message_id)
 })
 
 bot.on(message('document'), async (ctx) => {
