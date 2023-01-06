@@ -31,21 +31,6 @@ bot.start((ctx) => {
   ctx.reply(ctx.chat.id.toString())
 })
 
-bot.on(message('document'), async (ctx) => {
-  await saveFile(
-    {
-      chatId: ctx.update.message.chat.id.toString(),
-      messageId: ctx.update.message.message_id,
-    },
-    {
-      fileName: ctx.update.message.document.file_name ?? '',
-      fileSize: ctx.update.message.document.file_size ?? 0,
-      fileId: ctx.update.message.document.file_id,
-      fileThumbId: ctx.update.message.document.thumb?.file_id ?? '',
-    }
-  )
-})
-
 bot.command('delete', async (ctx) => {
   console.log(ctx.update.message)
   if (!ctx.update.message?.reply_to_message) {
@@ -77,6 +62,21 @@ bot.command('delete', async (ctx) => {
   deleteMessageFromTelegram(chatId, fileToRemove.messageId)
   ctx.reply(`File ${fileToRemove.name} deleted`)
   deleteMessageFromTelegram(chatId, messageWithFile)
+})
+
+bot.on(message('document'), async (ctx) => {
+  await saveFile(
+    {
+      chatId: ctx.update.message.chat.id.toString(),
+      messageId: ctx.update.message.message_id,
+    },
+    {
+      fileName: ctx.update.message.document.file_name ?? '',
+      fileSize: ctx.update.message.document.file_size ?? 0,
+      fileId: ctx.update.message.document.file_id,
+      fileThumbId: ctx.update.message.document.thumb?.file_id ?? '',
+    }
+  )
 })
 
 bot.on(message('video'), async (ctx) => {
@@ -111,6 +111,25 @@ bot.on(message('photo'), async (ctx) => {
       fileSize: photoFile?.file_size ?? 0,
       fileId: photoFile.file_id,
       fileThumbId: photoThumb.file_id,
+    }
+  )
+})
+
+bot.on(message('voice'), async (ctx) => {
+  const voiceFileName =
+    format(new Date(ctx.update.message.date * 1000), 'HH.mm_dd.MM.yyyy') +
+    '.ogg'
+
+  await saveFile(
+    {
+      chatId: ctx.update.message.chat.id.toString(),
+      messageId: ctx.update.message.message_id,
+    },
+    {
+      fileName: voiceFileName,
+      fileSize: ctx.update.message.voice.file_size ?? 0,
+      fileId: ctx.update.message.voice.file_id,
+      fileThumbId: '',
     }
   )
 })
