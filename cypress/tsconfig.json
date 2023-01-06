@@ -1,10 +1,8 @@
 {
-    "extends": "../tsconfig.json",
-    "compilerOptions": {
-      "baseUrl": ".",
-      "types": ["cypress", "cypress-file-upload"]
-    },
-    "include": [
-      "**/*.ts"
-    ]
-  }
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "types": ["cypress", "cypress-file-upload"]
+  },
+  "include": ["**/*.ts"]
+}
