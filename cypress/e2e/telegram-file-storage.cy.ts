@@ -209,5 +209,44 @@ export default describe('Telegram app test', () => {
         cy.get('[data-testid="fileItem"]').should('have.length', 0)
       })
     })
+
+    it('Select/Unselect all files and folders', () => {
+      const files = ['1.png', '2.png', '3.png']
+      const folders = [
+        `Fodler_${Math.random()}`,
+        `Fodler_${Math.random()}`,
+        `Fodler_${Math.random()}`,
+      ]
+
+      files.forEach((file) => {
+        cy.get('[data-testid="fileUploader"]').attachFile(file)
+        cy.get(`[data-testid="fileName"]:contains(${file})`).should(
+          'have.length',
+          1
+        )
+      })
+      folders.forEach((folder) => {
+        cy.get('[data-testid="addFolderInput"]').type(folder)
+        cy.get('[data-testid="addFolderSubmit"]').click()
+        cy.get(`[data-testid="folderName"]:contains(${folder})`).should(
+          'have.length',
+          1
+        )
+      })
+
+      cy.get('[data-testid="bulkSelectButton"]').click()
+      cy.get('[data-testid="selectAllButton"]').click()
+      cy.get('.ant-checkbox-checked').should(
+        'have.length.above',
+        files.length + folders.length - 1
+      )
+      cy.get('[data-testid="selectAllButton"]').click()
+      cy.get('.ant-checkbox-checked').should('have.length', 0)
+      cy.get('[data-testid="selectAllButton"]').click()
+      cy.get('[data-testid="bulkDeleteButton"]').click()
+
+      cy.get('[data-testid="FolderItem"]').should('have.length', 0)
+      cy.get('[data-testid="fileItem"]').should('have.length', 0)
+    })
   })
 })
