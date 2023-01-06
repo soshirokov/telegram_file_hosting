@@ -97,6 +97,15 @@ describe('Folder component', () => {
     expect(onRemoveSelectFolder).toBeCalledWith(defaultProps.folderId)
   })
 
+  test('onSelect mode and isSelected = true', () => {
+    const { container } = RenderWithProps({
+      onSelect: true,
+      isSelected: true,
+    })
+
+    expect(container.querySelector('.ant-checkbox-checked')).toBeInTheDocument()
+  })
+
   test('edit folder name', async () => {
     const onChangeFolderName = jest.fn()
     const { container } = RenderWithProps({ onChangeFolderName })

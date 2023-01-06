@@ -24,8 +24,10 @@ const TEST_FOLDERS = [
 ]
 
 const defaultProps = {
+  excludeFolders: [],
   folders: TEST_FOLDERS,
   onSelect: false,
+  selectAll: false,
   viewMode: false,
   onChangeFolderName: () => {},
   onClickFolder: () => {},

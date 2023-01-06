@@ -88,6 +88,15 @@ describe('File component', () => {
     expect(onRemoveSelectFile).toBeCalledWith(defaultProps.telegramFileId)
   })
 
+  test('onSelect mode and isSelected = true', () => {
+    const { container } = RenderWithProps({
+      onSelect: true,
+      isSelected: true,
+    })
+
+    expect(container.querySelector('.ant-checkbox-checked')).toBeInTheDocument()
+  })
+
   test('edit file name', async () => {
     const onChangeFileName = jest.fn()
     const { container } = RenderWithProps({ onChangeFileName })

@@ -88,18 +88,7 @@ export const FoldersContainer = ({
               }))
             : []
 
-          const foldersToDisplay = excludeFolders
-            ? folders.filter(
-                (folder) =>
-                  !Boolean(
-                    excludeFolders.find(
-                      (folderId) => folderId === folder.folderId
-                    )
-                  )
-              )
-            : folders
-
-          setFolderList(foldersToDisplay)
+          setFolderList(folders)
         })
       }
       fetchInitialData()
@@ -112,6 +101,7 @@ export const FoldersContainer = ({
 
   return (
     <Folders
+      excludeFolders={excludeFolders}
       folders={folderList}
       selectAll={selectAll}
       viewMode={viewMode}

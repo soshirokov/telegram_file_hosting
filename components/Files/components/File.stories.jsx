@@ -4,10 +4,11 @@ import { File } from './File'
 
 const defaultProps = {
   name: 'File1.pdf',
+  isSelected: false,
   onSelect: false,
   size: 1000,
   telegramFileId: '1111',
-  thumbURL: 'https://picsum.photos/200',
+  thumbURL: 'http://localhost',
   onAddSelectFile: () => {},
   onChangeFileName: () => {},
   onDeleteFile: () => {},

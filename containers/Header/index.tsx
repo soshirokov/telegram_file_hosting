@@ -42,7 +42,7 @@ export const HeaderContainer = ({
   const [isModalOpen, setIsModalOpen] = useState(false)
 
   const isActive = useMemo(() => {
-    return !!(selected.files.length + selected.folders.length)
+    return Boolean(selected.files.length + selected.folders.length)
   }, [selected])
 
   const addFolderHandler = (folderName: string) => {

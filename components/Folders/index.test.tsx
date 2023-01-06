@@ -27,6 +27,7 @@ const TEST_FOLDERS: FolderClient[] = [
 ]
 
 const defaultProps: Props = {
+  excludeFolders: [],
   folders: TEST_FOLDERS,
   onSelect: false,
   selectAll: false,
@@ -113,6 +114,23 @@ describe('Folders component', () => {
     expect(onClickFolder).not.toBeCalled()
   })
 
+  test('onSelect mode and selectAll = true', () => {
+    const onSelectedChange = jest.fn()
+    RenderWithProps({
+      onSelect: true,
+      selectAll: true,
+      onSelectedChange,
+    })
+
+    expect(onSelectedChange).toBeCalled()
+    expect(onSelectedChange).toBeCalledTimes(1)
+    expect(onSelectedChange).toBeCalledWith(
+      TEST_FOLDERS.filter((folder) => !folder?.isUserUploadFolder).map(
+        (folder) => folder.folderId
+      )
+    )
+  })
+
   test('edit folder name', async () => {
     const onChangeFolderName = jest.fn()
     const { container } = RenderWithProps({ onChangeFolderName })
@@ -163,5 +181,16 @@ describe('Folders component', () => {
     ).not.toBeInTheDocument()
     expect(container.querySelector('.Folder__Actions')).not.toBeInTheDocument()
     expect(container.querySelector('.Folder__Delete')).not.toBeInTheDocument()
+  })
+
+  test('viewMode doesnt display excluded folders', () => {
+    const { container } = RenderWithProps({
+      viewMode: true,
+      excludeFolders: [TEST_FOLDERS[0].folderId],
+    })
+
+    expect(container.querySelectorAll('.Folders__ListItem').length).toEqual(
+      TEST_FOLDERS.length - 1
+    )
   })
 })

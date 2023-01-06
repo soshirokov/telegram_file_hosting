@@ -34,6 +34,7 @@ const TEST_FILES = [
 
 const defaultProps = {
   files: TEST_FILES,
+  selectAll: false,
   onSelect: false,
   onChangeFileName: () => {},
   onDeleteFile: () => {},

@@ -69,7 +69,7 @@ export const Files = ({
       setSelected([])
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectAll, files])
+  }, [selectAll, files.length])
 
   return (
     <div className={styles.Files}>

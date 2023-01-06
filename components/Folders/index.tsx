@@ -9,6 +9,7 @@ import { FolderClient } from 'types/Folder'
 import styles from './styles.module.scss'
 
 export type Props = {
+  excludeFolders: string[]
   folders: FolderClient[]
   onSelect: boolean
   selectAll: boolean
@@ -20,6 +21,7 @@ export type Props = {
 }
 
 export const Folders = ({
+  excludeFolders,
   folders,
   onSelect,
   selectAll,
@@ -30,6 +32,7 @@ export const Folders = ({
   onSelectedChange = () => {},
 }: Props) => {
   const [selectedFolders, setSelectedFolders] = useState<string[]>([])
+  const [displayFolders, setDisplayFolders] = useState<FolderClient[]>([])
 
   const clickFolderHandler = (folderId: string) => {
     onClickFolder(folderId)
@@ -71,14 +74,31 @@ export const Folders = ({
       setSelected([])
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectAll, folders])
+  }, [selectAll, folders.length])
+
+  useEffect(() => {
+    if (!viewMode) {
+      setDisplayFolders(folders)
+    } else {
+      const foldersToDisplay: FolderClient[] = excludeFolders
+        ? folders.filter(
+            (folder) =>
+              !Boolean(
+                excludeFolders.find((folderId) => folderId === folder.folderId)
+              )
+          )
+        : folders
+
+      setDisplayFolders(foldersToDisplay)
+    }
+  }, [folders, excludeFolders, viewMode])
 
   return (
     <>
       {folders.length > 0 ? (
         <List
           className={styles.Folders__List}
-          dataSource={folders}
+          dataSource={displayFolders}
           renderItem={(folder) => (
             <List.Item className={styles.Folders__ListItem}>
               <Folder

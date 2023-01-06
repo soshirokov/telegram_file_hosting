@@ -105,6 +105,34 @@ describe('Header component', () => {
     expect(cancelBtn).not.toBeInTheDocument()
   })
 
+  test('select all function', async () => {
+    const onSelectAll = jest.fn()
+    const { container, rerender, findByText } = RenderWithProps()
+
+    await user.click(container.querySelector('.Header__SelectButton')!)
+
+    rerender(
+      <Header {...defaultProps} isActive={true} onSelectAll={onSelectAll} />
+    )
+
+    await user.click(container.querySelector('.Header__SelectAllButton')!)
+
+    expect(onSelectAll).toBeCalled()
+    expect(onSelectAll).toBeCalledTimes(1)
+    expect(await findByText(/select all/i)).toBeDefined()
+
+    rerender(
+      <Header
+        {...defaultProps}
+        isActive={true}
+        selectAll={true}
+        onSelectAll={onSelectAll}
+      />
+    )
+
+    expect(await findByText(/unselect all/i)).toBeDefined()
+  })
+
   test('move items function', async () => {
     const onModalSubmit = jest.fn()
     const onMoveSelected = jest.fn()

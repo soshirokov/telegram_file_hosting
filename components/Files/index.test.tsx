@@ -97,6 +97,21 @@ describe('Files component', () => {
     expect(onSelectedChange).toBeCalledWith([])
   })
 
+  test('onSelect mode and selectAll = true', () => {
+    const onSelectedChange = jest.fn()
+    RenderWithProps({
+      onSelect: true,
+      selectAll: true,
+      onSelectedChange,
+    })
+
+    expect(onSelectedChange).toBeCalled()
+    expect(onSelectedChange).toBeCalledTimes(1)
+    expect(onSelectedChange).toBeCalledWith(
+      TEST_FILES.map((file) => file.telegramFileId)
+    )
+  })
+
   test('edit file name', async () => {
     const onChangeFileName = jest.fn()
     const { container } = RenderWithProps({ onChangeFileName })

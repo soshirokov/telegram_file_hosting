@@ -9,12 +9,14 @@ const defaultProps = {
   modalIsOpen: false,
   modalTitle: 'Modal Title',
   prevFolder: '1111',
+  selectAll: false,
   onAddFolder: () => {},
   onClickFolder: () => {},
   onDeleteSelected: () => {},
   onModalCancel: () => {},
   onModalSubmit: () => {},
   onMoveSelected: () => {},
+  onSelectAll: () => {},
   onToSelect: () => {},
 }
 
