@@ -60,10 +60,10 @@ bot.command('delete', async (ctx) => {
     console.log('Removing upload message', fileToRemove.uploadMessageId)
     await deleteMessageFromTelegram(chatId, fileToRemove.uploadMessageId)
   }
-  console.log('Removing bot message', fileToRemove.uploadMessageId)
+  console.log('Removing bot message', fileToRemove.messageId)
   await deleteMessageFromTelegram(chatId, fileToRemove.messageId)
   ctx.reply(`File ${fileToRemove.name} deleted`)
-  console.log('Removing init message', fileToRemove.uploadMessageId)
+  console.log('Removing init message', ctx.update.message.message_id)
   await deleteMessageFromTelegram(chatId, ctx.update.message.message_id)
 })
 
