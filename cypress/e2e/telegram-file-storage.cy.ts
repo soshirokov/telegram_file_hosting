@@ -10,7 +10,7 @@ export default describe('Telegram app test', () => {
     cy.get('[data-testid="chatInput"]').type(Cypress.env('chatId'))
     cy.get('[data-testid="chatSubmit"]').click()
 
-    cy.get('[data-testId="homeLink"]').click()
+    cy.get('[data-testid="homeLink"]').click()
   })
 
   describe('Files actions', () => {
@@ -18,20 +18,20 @@ export default describe('Telegram app test', () => {
       const fileNames = ['1.png', '2.png', '3.png']
       fileNames.forEach((file) => {
         cy.get('[data-testid="fileUploader"]').attachFile(file)
-        cy.get(`[data-testId="fileName"]:contains(${file})`).should(
+        cy.get(`[data-testid="fileName"]:contains(${file})`).should(
           'have.length',
           1
         )
       })
       fileNames.forEach((file) => {
-        cy.get(`[data-testId="fileName"]:contains(${file})`)
-          .parents('[data-testId="fileItem"]')
+        cy.get(`[data-testid="fileName"]:contains(${file})`)
+          .parents('[data-testid="fileItem"]')
           .within(() => {
             cy.intercept('http://localhost:3000/api/*').as('api')
-            cy.get('[data-testId="deteleFile"]').click()
+            cy.get('[data-testid="deteleFile"]').click()
             cy.wait('@api')
           })
-        cy.get(`[data-testId="fileName"]:contains(${file})`).should(
+        cy.get(`[data-testid="fileName"]:contains(${file})`).should(
           'have.length',
           0
         )
@@ -42,25 +42,25 @@ export default describe('Telegram app test', () => {
       const extension = initFile.split('.').reverse()[0]
       const newFileName = 'Test_' + Math.random()
       cy.get('[data-testid="fileUploader"]').attachFile(initFile)
-      cy.get(`[data-testId="fileName"]:contains(${initFile})`)
-        .parents('[data-testId="fileItem"]')
+      cy.get(`[data-testid="fileName"]:contains(${initFile})`)
+        .parents('[data-testid="fileItem"]')
         .within(() => {
-          cy.get('[data-testId="renameFile"]').click()
+          cy.get('[data-testid="renameFile"]').click()
         })
-      cy.get('[data-testId="newFileNameInput"]').clear().type(newFileName)
+      cy.get('[data-testid="newFileNameInput"]').clear().type(newFileName)
       cy.intercept('http://localhost:3000/api/*').as('api')
-      cy.get('[data-testId="newFileNameSubmit"]').click()
+      cy.get('[data-testid="newFileNameSubmit"]').click()
       cy.wait('@api').then(() => {
-        cy.get(`[data-testId="fileName"]:contains(${newFileName}.${extension})`)
+        cy.get(`[data-testid="fileName"]:contains(${newFileName}.${extension})`)
           .should('have.length', 1)
-          .parents('[data-testId="fileItem"]')
+          .parents('[data-testid="fileItem"]')
           .within(() => {
-            cy.get('[data-testId="deteleFile"]').click()
+            cy.get('[data-testid="deteleFile"]').click()
             cy.wait('@api')
           })
       })
       cy.get(
-        `[data-testId="fileName"]:contains(${newFileName}.${extension})`
+        `[data-testid="fileName"]:contains(${newFileName}.${extension})`
       ).should('have.length', 0)
     })
   })
@@ -68,16 +68,16 @@ export default describe('Telegram app test', () => {
   describe('Folders actions', () => {
     it('add and delete folder', () => {
       const newFolderName = 'Test_' + Math.random()
-      cy.get('[data-testId="addFolderInput"]').type(newFolderName)
+      cy.get('[data-testid="addFolderInput"]').type(newFolderName)
       cy.get('[data-testid="addFolderSubmit"]').click()
-      cy.get(`[data-testId="folderName"]:contains(${newFolderName})`)
+      cy.get(`[data-testid="folderName"]:contains(${newFolderName})`)
         .should('have.length', 1)
-        .parents('[data-testId="FolderItem"]')
+        .parents('[data-testid="FolderItem"]')
         .within(() => {
-          cy.get('[data-testId="deleteFolderButton"]').click()
+          cy.get('[data-testid="deleteFolderButton"]').click()
         })
-      cy.get('[data-testId="confirmYesAction"]').click()
-      cy.get(`[data-testId="folderName"]:contains(${newFolderName})`).should(
+      cy.get('[data-testid="confirmYesAction"]').click()
+      cy.get(`[data-testid="folderName"]:contains(${newFolderName})`).should(
         'have.length',
         0
       )
@@ -85,28 +85,28 @@ export default describe('Telegram app test', () => {
     it('rename folder', () => {
       const newFolderName = 'Test_' + Math.random()
       const renameFolderName = 'TestRenamed_' + Math.random()
-      cy.get('[data-testId="addFolderInput"]').type(newFolderName)
+      cy.get('[data-testid="addFolderInput"]').type(newFolderName)
       cy.get('[data-testid="addFolderSubmit"]').click()
       cy.get(`[data-testid="folderName"]:contains(${newFolderName})`)
         .should('have.length', 1)
-        .parents('[data-testId="FolderItem"]')
+        .parents('[data-testid="FolderItem"]')
         .within(() => {
-          cy.get('[data-testId="folderRenameButton"]').click()
+          cy.get('[data-testid="folderRenameButton"]').click()
         })
-      cy.get('[data-testId="folderRenameInput"]').clear().type(renameFolderName)
-      cy.get('[data-testId="folderRenameSubmit"]').click()
+      cy.get('[data-testid="folderRenameInput"]').clear().type(renameFolderName)
+      cy.get('[data-testid="folderRenameSubmit"]').click()
       cy.get(`[data-testid="folderName"]:contains(${newFolderName})`).should(
         'have.length',
         0
       )
-      cy.get(`[data-testId="folderName"]:contains(${renameFolderName})`)
+      cy.get(`[data-testid="folderName"]:contains(${renameFolderName})`)
         .should('have.length', 1)
-        .parents('[data-testId="FolderItem"]')
+        .parents('[data-testid="FolderItem"]')
         .within(() => {
-          cy.get('[data-testId="deleteFolderButton"]').click()
+          cy.get('[data-testid="deleteFolderButton"]').click()
         })
-      cy.get('[data-testId="confirmYesAction"]').click()
-      cy.get(`[data-testId="folderName"]:contains(${renameFolderName})`).should(
+      cy.get('[data-testid="confirmYesAction"]').click()
+      cy.get(`[data-testid="folderName"]:contains(${renameFolderName})`).should(
         'have.length',
         0
       )
@@ -124,30 +124,30 @@ export default describe('Telegram app test', () => {
 
       files.forEach((file) => {
         cy.get('[data-testid="fileUploader"]').attachFile(file)
-        cy.get(`[data-testId="fileName"]:contains(${file})`).should(
+        cy.get(`[data-testid="fileName"]:contains(${file})`).should(
           'have.length',
           1
         )
       })
       folders.forEach((folder) => {
-        cy.get('[data-testId="addFolderInput"]').type(folder)
+        cy.get('[data-testid="addFolderInput"]').type(folder)
         cy.get('[data-testid="addFolderSubmit"]').click()
-        cy.get(`[data-testId="folderName"]:contains(${folder})`).should(
+        cy.get(`[data-testid="folderName"]:contains(${folder})`).should(
           'have.length',
           1
         )
       })
 
-      cy.get('[data-testId="bulkSelectButton"]').click()
-      cy.get('[data-testId="fileSelectCheckbox"]').click({ multiple: true })
-      cy.get('[data-testId="folderSelectCheckbox"]').click({
+      cy.get('[data-testid="bulkSelectButton"]').click()
+      cy.get('[data-testid="fileSelectCheckbox"]').click({ multiple: true })
+      cy.get('[data-testid="folderSelectCheckbox"]').click({
         multiple: true,
       })
 
-      cy.get('[data-testId="bulkDeleteButton"]').click()
+      cy.get('[data-testid="bulkDeleteButton"]').click()
 
-      cy.get('[data-testId="FolderItem"]').should('have.length', 0)
-      cy.get('[data-testId="fileItem"]').should('have.length', 0)
+      cy.get('[data-testid="FolderItem"]').should('have.length', 0)
+      cy.get('[data-testid="fileItem"]').should('have.length', 0)
     })
 
     it('Move bulk files and folders', () => {
@@ -156,57 +156,57 @@ export default describe('Telegram app test', () => {
 
       cy.get('[data-testid="fileUploader"]').attachFile(file)
 
-      cy.get('[data-testId="addFolderInput"]').type(folder)
+      cy.get('[data-testid="addFolderInput"]').type(folder)
       cy.get('[data-testid="addFolderSubmit"]').click()
 
-      cy.get('[data-testId="bulkSelectButton"]').click()
-      cy.get('[data-testId="fileSelectCheckbox"]').click({ multiple: true })
-      cy.get('[data-testId="folderSelectCheckbox"]').click({
+      cy.get('[data-testid="bulkSelectButton"]').click()
+      cy.get('[data-testid="fileSelectCheckbox"]').click({ multiple: true })
+      cy.get('[data-testid="folderSelectCheckbox"]').click({
         multiple: true,
       })
 
-      cy.get('[data-testId="bulkMoveButton"]').click()
+      cy.get('[data-testid="bulkMoveButton"]').click()
 
       cy.intercept('http://localhost:3000/api/*').as('api')
 
-      cy.get('[data-testId="bulkMoveModal"]').within(() => {
+      cy.get('[data-testid="bulkMoveModal"]').within(() => {
         cy.get('[data-testid="UserUploadFolder"]').click()
-        cy.get('[data-testId="bulkMoveSubmit"]').click()
+        cy.get('[data-testid="bulkMoveSubmit"]').click()
       })
 
       cy.wait('@api')
 
-      cy.get('[data-testId="goToMainButton"]').click()
-      cy.get(`[data-testId="fileName"]:contains(${file})`).should(
+      cy.get('[data-testid="goToMainButton"]').click()
+      cy.get(`[data-testid="fileName"]:contains(${file})`).should(
         'have.length',
         0
       )
-      cy.get(`[data-testId="folderName"]:contains(${folder})`).should(
+      cy.get(`[data-testid="folderName"]:contains(${folder})`).should(
         'have.length',
         0
       )
 
       cy.get('[data-testid="UserUploadFolder"]').click()
-      cy.get(`[data-testId="fileName"]:contains(${file})`).should(
+      cy.get(`[data-testid="fileName"]:contains(${file})`).should(
         'have.length',
         1
       )
-      cy.get(`[data-testId="folderName"]:contains(${folder})`).should(
+      cy.get(`[data-testid="folderName"]:contains(${folder})`).should(
         'have.length',
         1
       )
 
-      cy.get('[data-testId="bulkSelectButton"]').click()
-      cy.get('[data-testId="fileSelectCheckbox"]').click({ multiple: true })
-      cy.get('[data-testId="folderSelectCheckbox"]').click({
+      cy.get('[data-testid="bulkSelectButton"]').click()
+      cy.get('[data-testid="fileSelectCheckbox"]').click({ multiple: true })
+      cy.get('[data-testid="folderSelectCheckbox"]').click({
         multiple: true,
       })
 
-      cy.get('[data-testId="bulkDeleteButton"]').click()
+      cy.get('[data-testid="bulkDeleteButton"]').click()
 
       cy.wait('@api').then(() => {
-        cy.get('[data-testId="FolderItem"]').should('have.length', 0)
-        cy.get('[data-testId="fileItem"]').should('have.length', 0)
+        cy.get('[data-testid="FolderItem"]').should('have.length', 0)
+        cy.get('[data-testid="fileItem"]').should('have.length', 0)
       })
     })
   })

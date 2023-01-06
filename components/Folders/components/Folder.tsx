@@ -86,7 +86,7 @@ export const Folder = ({
   return (
     <div
       className={styles.Folder}
-      data-testId={isUserUploadFolder ? 'UserUploadFolder' : 'FolderItem'}
+      data-testid={isUserUploadFolder ? 'UserUploadFolder' : 'FolderItem'}
       onClick={clickHandler}
     >
       <div className={styles.Folder__Desc}>
@@ -94,7 +94,7 @@ export const Folder = ({
           <Checkbox
             checked={isChecked}
             className={styles.Folder__Checkbox}
-            data-testId="folderSelectCheckbox"
+            data-testid="folderSelectCheckbox"
             disabled={isUserUploadFolder}
             onChange={checkHandler}
             onClick={actionClickHandler}
@@ -103,13 +103,13 @@ export const Folder = ({
         <FolderOutlined className={styles.Folder__Icon} />
         {!edit ? (
           <>
-            <div className={styles.Folder__Name} data-testId="folderName">
+            <div className={styles.Folder__Name} data-testid="folderName">
               {folderName}
             </div>
             {!onSelect && !viewMode && (
               <Button
                 className={styles.Folder__Icon_edit}
-                data-testId="folderRenameButton"
+                data-testid="folderRenameButton"
                 icon={<EditOutlined />}
                 size={'middle'}
                 type="text"
@@ -124,7 +124,7 @@ export const Folder = ({
           <>
             <Input
               className={cn(styles.Folder__Name, styles.Folder__Name_input)}
-              data-testId="folderRenameInput"
+              data-testid="folderRenameInput"
               value={newName}
               onChange={changeNameHandler}
               onClick={(e) => {
@@ -136,7 +136,7 @@ export const Folder = ({
             />
             <Button
               className={styles.Folder__Icon_save}
-              data-testId="folderRenameSubmit"
+              data-testid="folderRenameSubmit"
               disabled={onSelect}
               icon={<CheckOutlined />}
               size={'middle'}
@@ -152,14 +152,14 @@ export const Folder = ({
             <Popconfirm
               cancelText="No"
               className={styles.Folder__Confirm}
-              okText={<span data-testId="confirmYesAction">Yes</span>}
+              okText={<span data-testid="confirmYesAction">Yes</span>}
               placement="top"
               title={'Delete the folder and all files?'}
               onConfirm={deleteHandler}
             >
               <Button
                 className={styles.Folder__Delete}
-                data-testId="deleteFolderButton"
+                data-testid="deleteFolderButton"
                 disabled={onSelect}
                 icon={<DeleteOutlined />}
                 size={'middle'}

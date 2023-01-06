@@ -96,7 +96,7 @@ export const Header = ({
               <>
                 <Button
                   className={styles.Header__SelectButton}
-                  data-testId="bulkSelectButton"
+                  data-testid="bulkSelectButton"
                   icon={<SelectOutlined />}
                   onClick={onSelectHandler}
                 >
@@ -104,14 +104,14 @@ export const Header = ({
                 </Button>
                 <Input
                   className={styles.Header__AddFolderInput}
-                  data-testId="addFolderInput"
+                  data-testid="addFolderInput"
                   type="text"
                   value={newFolder}
                   onChange={(e) => setNewFolder(e.target.value)}
                 />
                 <Button
                   className={styles.Header__AddFolderButton}
-                  data-testId="addFolderSubmit"
+                  data-testid="addFolderSubmit"
                   disabled={!newFolder}
                   onClick={addFolderHandler}
                 >
@@ -122,7 +122,7 @@ export const Header = ({
               <>
                 <Button
                   className={styles.Header__MoveButton}
-                  data-testId="bulkMoveButton"
+                  data-testid="bulkMoveButton"
                   disabled={!isActive}
                   icon={<DragOutlined />}
                   type="primary"
@@ -132,7 +132,7 @@ export const Header = ({
                 </Button>
                 <Button
                   className={styles.Header__DeleteButton}
-                  data-testId="bulkDeleteButton"
+                  data-testid="bulkDeleteButton"
                   disabled={!isActive}
                   icon={<DeleteOutlined />}
                   onClick={deleteClickHandler}
@@ -159,7 +159,7 @@ export const Header = ({
                   {currentFolderName}
                   <Button
                     className={styles.Header__GoHomeButton}
-                    data-testId="goToMainButton"
+                    data-testid="goToMainButton"
                     type="link"
                     onClick={() => clickFolderHandler('')}
                   >
@@ -180,8 +180,8 @@ export const Header = ({
         <Modal
           cancelText="Cancel"
           className={styles.Header__Modal}
-          data-testId="bulkMoveModal"
-          okText={<span data-testId="bulkMoveSubmit">Move here</span>}
+          data-testid="bulkMoveModal"
+          okText={<span data-testid="bulkMoveSubmit">Move here</span>}
           open={modalIsOpen}
           title={modalTitle}
           onCancel={modalCancelHandler}

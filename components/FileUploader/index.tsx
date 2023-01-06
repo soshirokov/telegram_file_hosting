@@ -45,7 +45,7 @@ export const FileUploader = ({ action, data, disabled, onNewFile }: Props) => {
     <Dragger
       {...props}
       className={styles.FileUploader}
-      data-testId="fileUploader"
+      data-testid="fileUploader"
       disabled={disabled}
     >
       <FileAddOutlined className={styles.FileUploader__Icon} />

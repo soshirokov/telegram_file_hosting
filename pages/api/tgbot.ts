@@ -32,7 +32,6 @@ bot.start((ctx) => {
 })
 
 bot.command('delete', async (ctx) => {
-  console.log(ctx.update.message)
   if (!ctx.update.message?.reply_to_message) {
     ctx.reply('Reply this command to file, that yo want to delete')
     return null
@@ -53,15 +52,19 @@ bot.command('delete', async (ctx) => {
 
   const fileId = await getFileIdByMessageId(userId, fileToRemove.messageId)
 
+  console.log('Start removing', fileToRemove, fileId)
+
   await removeFile(userId, fileId)
 
   if (fileToRemove?.uploadMessageId) {
-    deleteMessageFromTelegram(chatId, fileToRemove.uploadMessageId)
+    console.log('Removing upload message', fileToRemove.uploadMessageId)
+    await deleteMessageFromTelegram(chatId, fileToRemove.uploadMessageId)
   }
-
-  deleteMessageFromTelegram(chatId, fileToRemove.messageId)
+  console.log('Removing bot message', fileToRemove.uploadMessageId)
+  await deleteMessageFromTelegram(chatId, fileToRemove.messageId)
   ctx.reply(`File ${fileToRemove.name} deleted`)
-  deleteMessageFromTelegram(chatId, ctx.update.message.message_id)
+  console.log('Removing init message', fileToRemove.uploadMessageId)
+  await deleteMessageFromTelegram(chatId, ctx.update.message.message_id)
 })
 
 bot.on(message('document'), async (ctx) => {

@@ -93,7 +93,7 @@ export const File = ({
   return (
     <div
       className={cn(styles.File, { [styles.File_select]: onSelect })}
-      data-testId="fileItem"
+      data-testid="fileItem"
       onClick={clickHandler}
     >
       <div className={styles.File__Desc}>
@@ -101,7 +101,7 @@ export const File = ({
           <Checkbox
             checked={isChecked}
             className={styles.File__Checkbox}
-            data-testId="fileSelectCheckbox"
+            data-testid="fileSelectCheckbox"
             onChange={checkHandler}
           />
         )}
@@ -115,7 +115,7 @@ export const File = ({
         )}
         {!edit ? (
           <>
-            <div className={styles.File__Name} data-testId="fileName">
+            <div className={styles.File__Name} data-testid="fileName">
               {name}
             </div>
             {!onSelect &&
@@ -135,7 +135,7 @@ export const File = ({
               ) : (
                 <Button
                   className={styles.File__Icon_edit}
-                  data-testId="renameFile"
+                  data-testid="renameFile"
                   disabled={isBigFile}
                   icon={<EditOutlined />}
                   size={'middle'}
@@ -151,14 +151,14 @@ export const File = ({
             <Input
               addonAfter={edit ? extension : false}
               className={cn(styles.File__Name, styles.File__Name_input)}
-              data-testId="newFileNameInput"
+              data-testid="newFileNameInput"
               value={fileName}
               onChange={changeNameHandler}
               onPressEnter={submitHandler}
             />
             <Button
               className={styles.File__Icon_save}
-              data-testId="newFileNameSubmit"
+              data-testid="newFileNameSubmit"
               icon={<CheckOutlined />}
               size={'middle'}
               type="text"
@@ -179,7 +179,7 @@ export const File = ({
           />
           <Button
             className={styles.File__Delete}
-            data-testId="deteleFile"
+            data-testid="deteleFile"
             icon={<DeleteOutlined />}
             size={'middle'}
             type="text"

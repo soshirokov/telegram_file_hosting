@@ -23,7 +23,7 @@ export const Main = ({ children }: Props) => {
       label: (
         <Link
           className={styles.Main__MenuLink}
-          data-testId="homeLink"
+          data-testid="homeLink"
           href={'/'}
         >
           Home
@@ -35,7 +35,7 @@ export const Main = ({ children }: Props) => {
       label: (
         <Link
           className={styles.Main__MenuLink}
-          data-testId="profileLink"
+          data-testid="profileLink"
           href={'/profile'}
         >
           Profile
@@ -47,7 +47,7 @@ export const Main = ({ children }: Props) => {
       label: userUID ? (
         <div
           className={styles.Main__MenuLink_logout}
-          data-testId="logoutLink"
+          data-testid="logoutLink"
           onClick={logout}
         >
           Logout
