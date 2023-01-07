@@ -33,7 +33,12 @@ export const FileUploader = ({ action, data, disabled, onNewFile }: Props) => {
         if (status === 'done') {
           message.success(`File ${info.file.name} uploaded successfully.`)
 
-          onNewFile(response.document, response.message_id)
+          if (response.document) {
+            onNewFile(response.document, response.message_id)
+          }
+          if (response.video) {
+            onNewFile(response.video, response.message_id)
+          }
         } else if (status === 'error') {
           message.error(`${info.file.name} upload failed.`)
         }

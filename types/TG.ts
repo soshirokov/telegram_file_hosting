@@ -14,7 +14,8 @@ export type sendFileResponse = {
     type: string
   }
   date: string
-  document: tgDocument
+  document?: tgDocument
+  video?: tgDocument
 }
 
 export type tgDocument = {
