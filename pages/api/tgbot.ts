@@ -23,7 +23,7 @@ import {
 
 const REPLY_AUTODELETE_DELAY = 10000
 
-const bot = new Telegraf(process.env.BOT_TOKEN ?? '')
+const bot = new Telegraf(process.env.NEXT_PUBLIC_BOT_TOKEN ?? '')
 
 bot.start((ctx) => {
   bot.telegram.setMyCommands([

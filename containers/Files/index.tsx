@@ -167,7 +167,7 @@ export const FilesContainer = ({
         onSelectedChange={onSelectedChange}
       />
       <FileUploader
-        action={'/api/tgfiles'}
+        action={`https://api.telegram.org/bot${process.env.NEXT_PUBLIC_BOT_TOKEN}/sendDocument`}
         data={{ chatId, folderName: currentFolder?.name ?? '' }}
         disabled={onSelect}
         onNewFile={onAddFile}

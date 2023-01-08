@@ -3,6 +3,8 @@ import { message } from 'antd'
 import { UploadProps } from 'antd/lib/upload'
 import Dragger from 'antd/lib/upload/Dragger'
 
+import { generateCaption } from 'helpers/generators'
+
 import { sendFileResponse, tgDocument } from 'types/TG'
 
 import styles from './styles.module.scss'
@@ -16,10 +18,13 @@ export type Props = {
 
 export const FileUploader = ({ action, data, disabled, onNewFile }: Props) => {
   const props: UploadProps = {
-    name: 'file',
+    name: 'document',
     multiple: true,
     action,
-    data,
+    data: {
+      chat_id: data.chatId,
+      caption: generateCaption(data.folderName ?? ''),
+    },
     itemRender(origin, file) {
       if (file.status === 'done') {
         return false
@@ -28,19 +33,29 @@ export const FileUploader = ({ action, data, disabled, onNewFile }: Props) => {
     },
     onChange(info) {
       const { status } = info.file
-      const response: sendFileResponse = info.file.response
+      const response = info.file.response
       if (status !== 'uploading') {
         if (status === 'done') {
           message.success(`File ${info.file.name} uploaded successfully.`)
 
-          if (response.document) {
-            onNewFile(response.document, response.message_id)
+          const result: sendFileResponse = response.result
+
+          console.log(result)
+
+          if (result.document) {
+            onNewFile(result.document, result.message_id)
           }
-          if (response.video) {
-            onNewFile(response.video, response.message_id)
+          if (result.video) {
+            onNewFile(result.video, result.message_id)
           }
         } else if (status === 'error') {
-          message.error(`${info.file.name} upload failed.`)
+          if (response.error_code === 413) {
+            message.error(
+              `${info.file.name} is too large, upload it via Telegram`
+            )
+          } else {
+            message.error(`${info.file.name} upload failed.`)
+          }
         }
       }
     },

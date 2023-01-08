@@ -3,7 +3,7 @@ import { Telegraf } from 'telegraf'
 
 import { generateCaption } from 'helpers/generators'
 
-const bot = new Telegraf(process.env.BOT_TOKEN ?? '')
+const bot = new Telegraf(process.env.NEXT_PUBLIC_BOT_TOKEN ?? '')
 
 export const sendFileToTeleram = async (
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
