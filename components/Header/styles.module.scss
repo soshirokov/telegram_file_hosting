@@ -1,4 +1,4 @@
-@import 'theme/variables';
+@import url("theme/variables");
 
 .Header {
   padding-left: 10px;
@@ -11,8 +11,8 @@
 
 .Header__PageTitle {
   font-size: 28px;
-  text-overflow: ellipsis;
   overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .Header__GoHomeButton {
@@ -24,10 +24,10 @@
 }
 
 .Header__Extra {
-  max-width: 100%;
-  width: 100%;
   display: flex;
   gap: 10px;
+  max-width: 100%;
+  width: 100%;
 }
 
 .Header__Extra_selecting {

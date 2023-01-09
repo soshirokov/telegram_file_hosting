@@ -1,4 +1,4 @@
-@import 'theme/variables';
+@import url("theme/variables");
 
 .Main__Layout {
   min-height: 100vh;
@@ -22,10 +22,10 @@
 .Main__Content {
   align-items: stretch;
   display: flex;
-  padding: 15px 0; 
+  padding: 15px 0;
 
   @include from-laptop {
-    padding: 50px 0; 
+    padding: 50px 0;
   }
 }
 

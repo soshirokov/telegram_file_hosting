@@ -51,9 +51,9 @@
 .File__Name {
   margin-left: 15px;
   margin-right: 5px;
-  transition: color ease 0.3s;
-  text-overflow: ellipsis;
   overflow: hidden;
+  text-overflow: ellipsis;
+  transition: color ease 0.3s;
 
   &[disabled] {
     color: inherit;
@@ -80,8 +80,8 @@
   background-position: 50% 50%;
   background-size: cover;
   height: 28px;
-  width: 28px;
   min-width: 28px;
+  width: 28px;
 }
 
 .File__Checkbox {

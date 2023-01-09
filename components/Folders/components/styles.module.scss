@@ -1,4 +1,4 @@
-@import 'theme/variables';
+@import url("theme/variables");
 
 .Folder {
   align-items: center;
@@ -40,9 +40,9 @@
 .Folder__Name {
   margin-left: 15px;
   margin-right: 5px;
-  transition: color ease 0.3s;
   overflow: hidden;
   text-overflow: ellipsis;
+  transition: color ease 0.3s;
   white-space: nowrap;
 }
 

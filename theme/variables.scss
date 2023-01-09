@@ -1,13 +1,13 @@
 // breakpoints
 
 @mixin from-tab {
-    @media (min-width: 678px) {
-        @content;
-    }
+  @media (min-width: 678px) {
+    @content;
+  }
 }
 
 @mixin from-laptop {
-    @media (min-width: 1024px) {
-        @content;
-    }
+  @media (min-width: 1024px) {
+    @content;
+  }
 }
