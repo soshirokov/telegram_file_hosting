@@ -11,6 +11,7 @@
     "no-invalid-position-at-import-rule": null,
     "order/properties-alphabetical-order": true,
     "scss/at-rule-no-unknown": true,
-    "function-no-unknown": [true, { "ignoreFunctions": ["/color/"] }]
+    "function-no-unknown": [true, { "ignoreFunctions": ["/color/"] }],
+    "import-notation": ["string","url"]
   }
 }

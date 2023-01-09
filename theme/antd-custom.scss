@@ -1,4 +1,4 @@
-@import url("./variables.scss");
+@import "./variables.scss";
 
 .ant-page-header-heading-extra,
 .ant-page-header-heading-extra > *,
@@ -6,7 +6,7 @@
 .ant-page-header-heading-left {
   width: 100%;
 
-  @include from-laptop() {
+  @include from-laptop {
     width: auto;
   }
 }
