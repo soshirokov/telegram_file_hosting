@@ -26,6 +26,7 @@
 .File__Desc {
   align-items: center;
   display: flex;
+  overflow: hidden;
 }
 
 .File__Actions {
@@ -35,6 +36,7 @@
 
 .File__Icon {
   font-size: 28px;
+  min-width: 28px;
   transition: color ease 0.3s;
 
   &_edit svg {
@@ -50,6 +52,8 @@
   margin-left: 15px;
   margin-right: 5px;
   transition: color ease 0.3s;
+  text-overflow: ellipsis;
+  overflow: hidden;
 
   &[disabled] {
     color: inherit;
@@ -66,7 +70,6 @@
 
 .File__Delete {
   font-size: 18px;
-  margin-left: 10px;
 }
 
 .File__Size {
@@ -78,6 +81,7 @@
   background-size: cover;
   height: 28px;
   width: 28px;
+  min-width: 28px;
 }
 
 .File__Checkbox {

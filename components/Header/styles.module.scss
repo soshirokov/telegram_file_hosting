@@ -1,10 +1,18 @@
+@import 'theme/variables';
+
 .Header {
   padding-left: 10px;
   padding-right: 10px;
+
+  & .ant-page-header-heading .ant-page-header-heading-extra {
+    width: 100%;
+  }
 }
 
 .Header__PageTitle {
   font-size: 28px;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 
 .Header__GoHomeButton {
@@ -13,4 +21,19 @@
 
 .Header__TitleIcon {
   margin-right: 10px;
+}
+
+.Header__Extra {
+  max-width: 100%;
+  width: 100%;
+  display: flex;
+  gap: 10px;
+}
+
+.Header__Extra_selecting {
+  flex-direction: column-reverse;
+
+  @include from-laptop {
+    flex-direction: row;
+  }
 }

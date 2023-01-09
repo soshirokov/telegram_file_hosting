@@ -1,3 +1,5 @@
+@import 'theme/variables';
+
 .Folder {
   align-items: center;
   cursor: pointer;
@@ -23,6 +25,7 @@
 
 .Folder__Icon {
   font-size: 28px;
+  min-width: 29px;
   transition: color ease 0.3s;
 
   &_edit svg {
@@ -38,11 +41,15 @@
   margin-left: 15px;
   margin-right: 5px;
   transition: color ease 0.3s;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .Folder__Desc {
   align-items: center;
   display: flex;
+  overflow: hidden;
 }
 
 .Folder__Actions {

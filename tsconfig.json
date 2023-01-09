@@ -22,6 +22,7 @@
       "helpers/*": ["helpers/*"],
       "layouts/*": ["layouts/*"],
       "pages/*": ["pages/*"],
+      "theme/*": ["theme/*"],
       "types/*": ["types/*"],
       "utils/*": ["utils/*"]
     }

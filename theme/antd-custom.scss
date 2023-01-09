@@ -1,0 +1,17 @@
+@import './variables.scss';
+
+.ant-page-header-heading-extra, .ant-page-header-heading-extra > *, .ant-space-item, .ant-page-header-heading-left {
+    width: 100%;
+
+    @include from-laptop() {
+        width: auto;
+    }
+}
+
+.ant-page-header-heading {
+    flex-direction: column;
+
+    @include from-laptop() {
+        flex-direction: row;
+    }
+}

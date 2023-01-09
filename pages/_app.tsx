@@ -10,6 +10,7 @@ import { User } from 'context/user'
 import { auth, getUserChatIdRef } from 'utils/firebase'
 
 import 'antd/dist/antd.css'
+import 'theme/antd-custom.scss'
 
 export default function App({ Component, pageProps }: AppProps) {
   const [user, loading] = useAuthState(auth)

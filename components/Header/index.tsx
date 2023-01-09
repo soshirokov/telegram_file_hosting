@@ -10,6 +10,7 @@ import {
   SelectOutlined,
 } from '@ant-design/icons'
 import { Button, Input, Modal, PageHeader } from 'antd'
+import cn from 'classnames'
 
 import styles from './styles.module.scss'
 
@@ -97,7 +98,11 @@ export const Header = ({
         backIcon={!!currentFolderName && <ArrowLeftOutlined />}
         className={styles.Header}
         extra={
-          <>
+          <div
+            className={cn(styles.Header__Extra, {
+              [styles.Header__Extra_selecting]: onSelect,
+            })}
+          >
             {!onSelect ? (
               <>
                 <Button
@@ -169,7 +174,7 @@ export const Header = ({
                 </Button>
               </>
             )}
-          </>
+          </div>
         }
         title={
           <div className={styles.Header__PageTitle}>
