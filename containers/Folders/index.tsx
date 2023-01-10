@@ -25,8 +25,8 @@ type Props = {
   onSelect?: boolean
   selectAll?: boolean
   viewMode?: boolean
-  changeFolderHandler: (folderId: string) => void
   onSelectedChange?: (folders: string[]) => void
+  selectFolderHandler?: (folderId: string) => void
 }
 
 export const FoldersContainer = ({
@@ -35,8 +35,8 @@ export const FoldersContainer = ({
   onSelect = false,
   selectAll = false,
   viewMode = false,
-  changeFolderHandler,
   onSelectedChange = () => {},
+  selectFolderHandler = () => {},
 }: Props) => {
   const [folderList, setFolderList] = useState<FolderClient[]>([])
   const { userUID, chatId } = useContext(User)
@@ -104,9 +104,9 @@ export const FoldersContainer = ({
       excludeFolders={excludeFolders}
       folders={folderList}
       selectAll={selectAll}
+      selectFolderHandler={selectFolderHandler}
       viewMode={viewMode}
       onChangeFolderName={changeFolerNameHandler}
-      onClickFolder={changeFolderHandler}
       onDeleteFolder={deleteFolderHandler}
       onSelect={onSelect}
       onSelectedChange={onSelectedChange}

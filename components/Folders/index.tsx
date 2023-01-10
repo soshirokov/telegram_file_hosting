@@ -15,9 +15,9 @@ export type Props = {
   selectAll: boolean
   viewMode?: boolean
   onChangeFolderName?: (folderId: string, folderName: string) => void
-  onClickFolder: (folderId: string) => void
   onDeleteFolder?: (folderId: string) => void
   onSelectedChange: (files: string[]) => void
+  selectFolderHandler?: (folderId: string) => void
 }
 
 export const Folders = ({
@@ -27,16 +27,12 @@ export const Folders = ({
   selectAll,
   viewMode = false,
   onChangeFolderName = () => {},
-  onClickFolder,
   onDeleteFolder = () => {},
   onSelectedChange = () => {},
+  selectFolderHandler = () => {},
 }: Props) => {
   const [selectedFolders, setSelectedFolders] = useState<string[]>([])
   const [displayFolders, setDisplayFolders] = useState<FolderClient[]>([])
-
-  const clickFolderHandler = (folderId: string) => {
-    onClickFolder(folderId)
-  }
 
   const deleteFolderHandler = (folderId: string) => {
     onDeleteFolder(folderId)
@@ -110,10 +106,10 @@ export const Folders = ({
                   )
                 )}
                 isUserUploadFolder={folder?.isUserUploadFolder}
+                selectFolderHandler={selectFolderHandler}
                 viewMode={viewMode}
                 onAddSelectFolder={addSelectedFolderHandler}
                 onChangeFolderName={onChangeFolderName}
-                onClick={clickFolderHandler}
                 onDelete={deleteFolderHandler}
                 onRemoveSelectFolder={removeSelectedFolderHandler}
                 onSelect={onSelect}

@@ -1,8 +1,14 @@
 import { render } from '@testing-library/react'
 
 import user from '@testing-library/user-event'
+import { useRouter } from 'next/router'
 
 import { Folder, Props } from './Folder'
+
+// mock useRouter
+jest.mock('next/router', () => ({
+  useRouter: jest.fn(),
+}))
 
 const defaultProps: Props = {
   folderName: 'Folder',
@@ -13,9 +19,9 @@ const defaultProps: Props = {
   viewMode: false,
   onAddSelectFolder: () => {},
   onChangeFolderName: () => {},
-  onClick: () => {},
   onDelete: () => {},
   onRemoveSelectFolder: () => {},
+  selectFolderHandler: () => {},
 }
 
 const RenderWithProps = (props?: Partial<Props>) => {
@@ -36,28 +42,32 @@ describe('Folder component', () => {
   })
 
   test('click folder', async () => {
-    const onClick = jest.fn()
-    const { container } = RenderWithProps({
-      onClick,
+    const pushMock = jest.fn()
+    ;(useRouter as jest.Mock).mockReturnValue({
+      push: pushMock,
     })
+
+    const { container } = RenderWithProps()
 
     const folderItem = container.querySelector('.Folder')
 
     await user.click(folderItem!)
 
-    expect(onClick).toBeCalled()
-    expect(onClick).toBeCalledTimes(1)
-    expect(onClick).toBeCalledWith(defaultProps.folderId)
+    expect(pushMock).toHaveBeenCalled()
+    expect(pushMock).toHaveBeenCalledTimes(1)
   })
 
   test('onSelect mode', async () => {
     const onAddSelectFolder = jest.fn()
     const onRemoveSelectFolder = jest.fn()
-    const onClick = jest.fn()
+    const pushMock = jest.fn()
+    ;(useRouter as jest.Mock).mockReturnValue({
+      push: pushMock,
+    })
+
     const { container } = RenderWithProps({
       onSelect: true,
       onAddSelectFolder,
-      onClick,
       onRemoveSelectFolder,
     })
 
@@ -86,13 +96,13 @@ describe('Folder component', () => {
 
     await user.click(folderItem!)
 
-    expect(onClick).not.toBeCalled()
+    expect(pushMock).not.toHaveBeenCalled()
     expect(onAddSelectFolder).toBeCalled()
     expect(onAddSelectFolder).toBeCalledWith(defaultProps.folderId)
 
     await user.click(folderItem!)
 
-    expect(onClick).not.toBeCalled()
+    expect(pushMock).not.toHaveBeenCalled()
     expect(onRemoveSelectFolder).toBeCalled()
     expect(onRemoveSelectFolder).toBeCalledWith(defaultProps.folderId)
   })
@@ -197,5 +207,21 @@ describe('Folder component', () => {
     ).not.toBeInTheDocument()
     expect(container.querySelector('.Folder__Actions')).not.toBeInTheDocument()
     expect(container.querySelector('.Folder__Delete')).not.toBeInTheDocument()
+  })
+
+  test('viewMode click folder call selectFolderHandler', async () => {
+    const selectFolderHandler = jest.fn()
+    const { container } = RenderWithProps({
+      viewMode: true,
+      selectFolderHandler,
+    })
+
+    const folderItem = container.querySelector('.Folder')
+
+    await user.click(folderItem!)
+
+    expect(selectFolderHandler).toBeCalled()
+    expect(selectFolderHandler).toBeCalledTimes(1)
+    expect(selectFolderHandler).toBeCalledWith(defaultProps.folderId)
   })
 })

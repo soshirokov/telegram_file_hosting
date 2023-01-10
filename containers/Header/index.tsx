@@ -2,6 +2,7 @@ import { useContext, useEffect, useMemo, useState } from 'react'
 
 import { message } from 'antd'
 import { get, set } from 'firebase/database'
+import { useRouter } from 'next/router'
 
 import { Header } from 'components/Header'
 
@@ -15,6 +16,7 @@ import { FolderServer } from 'types/Folder'
 
 import { updateCaption } from 'utils/api/appAPI'
 import { getUserFileRef, getUserFolderRef } from 'utils/firebase'
+import url from 'utils/url'
 
 import { FoldersContainer as Folders } from '../Folders'
 
@@ -22,7 +24,6 @@ type Props = {
   currentFolderId: string
   selectAll: boolean
   selected: { files: string[]; folders: string[] }
-  changeFolderHandler: (folderId: string) => void
   changeSelectAll: () => void
   onToSelect: (onSelect: boolean) => void
 }
@@ -31,7 +32,6 @@ export const HeaderContainer = ({
   currentFolderId,
   selectAll,
   selected,
-  changeFolderHandler,
   changeSelectAll,
   onToSelect,
 }: Props) => {
@@ -40,6 +40,7 @@ export const HeaderContainer = ({
   const [moveFolderId, setMoveFolderId] = useState('')
   const [moveFolderName, setMoveFolderName] = useState('')
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const router = useRouter()
 
   const isActive = useMemo(() => {
     return Boolean(selected.files.length + selected.folders.length)
@@ -79,7 +80,7 @@ export const HeaderContainer = ({
       selected.folders.map(async (folderId) => moveFolder(folderId))
     )
 
-    changeFolderHandler(moveFolderId)
+    router.push(moveFolderId ? url.router.folders.url(moveFolderId) : '/')
 
     clearModal()
     onToSelect(false)
@@ -151,9 +152,9 @@ export const HeaderContainer = ({
         isActive={isActive}
         modalEntry={
           <Folders
-            changeFolderHandler={changeMoveFolderHandler}
             currentFolderId={moveFolderId}
             excludeFolders={selected.folders}
+            selectFolderHandler={changeMoveFolderHandler}
             viewMode={true}
           />
         }
@@ -162,7 +163,6 @@ export const HeaderContainer = ({
         prevFolder={currentFolder?.parent ?? ''}
         selectAll={selectAll}
         onAddFolder={addFolderHandler}
-        onClickFolder={changeFolderHandler}
         onDeleteSelected={deleteSelectedHandler}
         onModalCancel={modalCancelHandler}
         onModalSubmit={modalSubmitHandler}

@@ -11,6 +11,10 @@ import {
 } from '@ant-design/icons'
 import { Button, Input, Modal, PageHeader } from 'antd'
 import cn from 'classnames'
+import Link from 'next/link'
+import { useRouter } from 'next/router'
+
+import url from 'utils/url'
 
 import styles from './styles.module.scss'
 
@@ -23,7 +27,6 @@ export type Props = {
   prevFolder: string
   selectAll: boolean
   onAddFolder?: (folderName: string) => void
-  onClickFolder: (folderId: string) => void
   onDeleteSelected: () => void
   onModalCancel: () => void
   onModalSubmit: () => void
@@ -41,7 +44,6 @@ export const Header = ({
   prevFolder,
   selectAll,
   onAddFolder = () => {},
-  onClickFolder,
   onDeleteSelected = () => {},
   onModalCancel = () => {},
   onModalSubmit = () => {},
@@ -51,14 +53,11 @@ export const Header = ({
 }: Props) => {
   const [newFolder, setNewFolder] = useState('')
   const [onSelect, setOnSelect] = useState(false)
+  const router = useRouter()
 
   const addFolderHandler = () => {
     onAddFolder(newFolder)
     setNewFolder('')
-  }
-
-  const clickFolderHandler = (folderId: string) => {
-    onClickFolder(folderId)
   }
 
   const onSelectHandler = () => {
@@ -183,14 +182,15 @@ export const Header = ({
                 <>
                   <FolderOpenOutlined className={styles.Header__TitleIcon} />
                   {currentFolderName}
-                  <Button
-                    className={styles.Header__GoHomeButton}
-                    data-testid="goToMainButton"
-                    type="link"
-                    onClick={() => clickFolderHandler('')}
-                  >
-                    Go to Main
-                  </Button>
+                  <Link href="/">
+                    <Button
+                      className={styles.Header__GoHomeButton}
+                      data-testid="goToMainButton"
+                      type="link"
+                    >
+                      Go to Main
+                    </Button>
+                  </Link>
                 </>
               ) : (
                 'My files'
@@ -200,7 +200,9 @@ export const Header = ({
             )}
           </div>
         }
-        onBack={() => clickFolderHandler(prevFolder)}
+        onBack={() =>
+          router.push(prevFolder ? url.router.folders.url(prevFolder) : '/')
+        }
       />
       {modalIsOpen && (
         <Modal

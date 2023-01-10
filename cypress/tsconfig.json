@@ -4,5 +4,6 @@
     "baseUrl": ".",
     "types": ["cypress", "cypress-file-upload"]
   },
-  "include": ["**/*.ts"]
+  "include": ["**/*.ts"],
+  "exclude": ["node_modules"]
 }

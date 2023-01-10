@@ -8,6 +8,9 @@ import {
 } from '@ant-design/icons'
 import { Button, Checkbox, Input, Popconfirm, Tooltip } from 'antd'
 import cn from 'classnames'
+import { useRouter } from 'next/router'
+
+import url from 'utils/url'
 
 import styles from './styles.module.scss'
 
@@ -20,9 +23,9 @@ export type Props = {
   viewMode?: boolean
   onAddSelectFolder: (fileId: string) => void
   onChangeFolderName?: (folderId: string, newFolderName: string) => void
-  onClick: (folderId: string) => void
   onDelete?: (folderId: string) => void
   onRemoveSelectFolder: (fileId: string) => void
+  selectFolderHandler?: (folderId: string) => void
 }
 
 export const Folder = ({
@@ -34,19 +37,26 @@ export const Folder = ({
   viewMode = false,
   onAddSelectFolder = () => {},
   onChangeFolderName = () => {},
-  onClick,
   onDelete = () => {},
   onRemoveSelectFolder = () => {},
+  selectFolderHandler = () => {},
 }: Props) => {
   const [edit, setEdit] = useState(false)
   const [newName, setNewName] = useState(folderName)
   const [isChecked, setIsChecked] = useState(false)
+  const router = useRouter()
 
   const clickHandler = () => {
-    if (!onSelect) {
-      onClick(folderId)
-    } else {
+    if (!onSelect && !viewMode) {
+      router.push(url.router.folders.url(folderId))
+    }
+
+    if (onSelect && !isUserUploadFolder) {
       changeCheckState()
+    }
+
+    if (viewMode) {
+      selectFolderHandler(folderId)
     }
   }
 

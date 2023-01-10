@@ -12,7 +12,6 @@ const defaultProps: Props = {
   prevFolder: '1111',
   selectAll: false,
   onAddFolder: () => {},
-  onClickFolder: () => {},
   onDeleteSelected: () => {},
   onModalCancel: () => {},
   onModalSubmit: () => {},
@@ -188,21 +187,6 @@ describe('Header component', () => {
 
     expect(onDeleteSelected).toBeCalled()
     expect(onDeleteSelected).toBeCalledTimes(1)
-  })
-
-  test('back btn click', async () => {
-    const onClickFolder = jest.fn()
-    const { container } = RenderWithProps({ onClickFolder })
-
-    expect(
-      container.querySelector('.ant-page-header-back-button')
-    ).toBeInTheDocument()
-
-    await user.click(container.querySelector('.ant-page-header-back-button')!)
-
-    expect(onClickFolder).toBeCalled()
-    expect(onClickFolder).toBeCalledTimes(1)
-    expect(onClickFolder).toBeCalledWith(defaultProps.prevFolder)
   })
 
   test('add new folder', async () => {

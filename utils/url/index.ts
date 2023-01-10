@@ -1,4 +1,4 @@
 import api from './api'
+import router from './routes'
 
-// eslint-disable-next-line import/no-anonymous-default-export
-export default { api }
+export default { api, router }

@@ -33,9 +33,9 @@ const defaultProps: Props = {
   selectAll: false,
   viewMode: false,
   onChangeFolderName: () => {},
-  onClickFolder: () => {},
   onDeleteFolder: () => {},
   onSelectedChange: () => {},
+  selectFolderHandler: () => {},
 }
 
 const RenderWithProps = (props?: Partial<Props>) => {
@@ -68,27 +68,10 @@ describe('Folders component', () => {
     )
   })
 
-  test('click folder', async () => {
-    const onClickFolder = jest.fn()
-    const { container } = RenderWithProps({
-      onClickFolder,
-    })
-
-    const folderItem = container.querySelectorAll('.Folder')[0]
-
-    await user.click(folderItem!)
-
-    expect(onClickFolder).toBeCalled()
-    expect(onClickFolder).toBeCalledTimes(1)
-    expect(onClickFolder).toBeCalledWith(defaultProps.folders[0].folderId)
-  })
-
   test('onSelect mode', async () => {
-    const onClickFolder = jest.fn()
     const onSelectedChange = jest.fn()
     const { container } = RenderWithProps({
       onSelect: true,
-      onClickFolder,
       onSelectedChange,
     })
 
@@ -110,8 +93,6 @@ describe('Folders component', () => {
     onSelectedChange.mockReset()
 
     await user.click(folderItem!)
-
-    expect(onClickFolder).not.toBeCalled()
   })
 
   test('onSelect mode and selectAll = true', () => {
