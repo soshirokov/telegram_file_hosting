@@ -168,7 +168,11 @@ export const FilesContainer = ({
       />
       <FileUploader
         action={`https://api.telegram.org/bot${process.env.NEXT_PUBLIC_BOT_TOKEN}/sendDocument`}
-        data={{ chatId, folderName: currentFolder?.name ?? '' }}
+        data={{
+          chatId,
+          folderName: currentFolder?.name ?? '',
+          folderId: currentFolderId,
+        }}
         disabled={onSelect}
         onNewFile={onAddFile}
       />

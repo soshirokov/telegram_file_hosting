@@ -97,7 +97,6 @@ const FolderPage = () => {
             onToSelect={onToSelectHandler}
           />
           <Folders
-            changeFolderHandler={() => {}}
             currentFolderId={currentFolderId}
             selectAll={selectAll}
             onSelect={onSelect}
