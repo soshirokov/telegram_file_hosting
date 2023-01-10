@@ -26,20 +26,18 @@ export const FileUploader = ({ action, data, disabled, onNewFile }: Props) => {
     data: {
       chat_id: data.chatId,
       caption: generateCaption(data.folderName ?? ''),
-      reply_markup:
-        !!process.env.URL &&
-        JSON.stringify({
-          inline_keyboard: [
-            [
-              {
-                text: 'View',
-                url: `${process.env.URL}${
-                  data.folderId ? url.router.folders.url(data.folderId) : ''
-                }`,
-              },
-            ],
+      reply_markup: JSON.stringify({
+        inline_keyboard: [
+          [
+            {
+              text: 'View',
+              url: `${process.env.NEXT_PUBLIC_URL}${
+                data.folderId ? url.router.folders.url(data.folderId) : ''
+              }`,
+            },
           ],
-        }),
+        ],
+      }),
     },
     itemRender(origin, file) {
       if (file.status === 'done') {
